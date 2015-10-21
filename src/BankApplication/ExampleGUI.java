@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-public class ExampleGUI extends JFrame{
+public class ExampleGUI extends JFrame {
 
 	private JButton addBTN, delete, update, clear;
 
@@ -24,8 +24,9 @@ public class ExampleGUI extends JFrame{
 
 	private JRadioButton checking, savings;
 
-	/**JMenu Item that quits when selected*/
+	/** JMenu Item that quits when selected */
 	private JMenuItem quitItem, loadBin, saveBin, loadText, saveText;
+
 	private JMenuItem loadXML, saveXML;
 	private JMenuItem accountN, accountO, dateO;
 	private JMenu fileMenu;
@@ -38,9 +39,9 @@ public class ExampleGUI extends JFrame{
 
 	private BankModel ld;
 
-	public ExampleGUI(){
+	public ExampleGUI() {
 		setLayout(new BorderLayout());
-		btnPNL = new JPanel(new GridLayout(4,1));		
+		btnPNL = new JPanel(new GridLayout(4, 1));
 		radioPNL = new JPanel(new GridBagLayout());
 		inputPNL = new JPanel();
 		ButtonListener listener = new ButtonListener();
@@ -73,23 +74,22 @@ public class ExampleGUI extends JFrame{
 		group.add(checking);
 		group.add(savings);
 
-
-		//String data[][] = {{"123", "9/10/15", "Sam", "$1,000.00"}};
-		//String column[] = {"Number", "Date Opened", "Account Owner", "Balance"};
+		// String data[][] = {{"123", "9/10/15", "Sam", "$1,000.00"}};
+		// String column[] = {"Number", "Date Opened", "Account Owner",
+		// "Balance"};
 
 		ld = new BankModel();
 		accounts = new JList<>(ld);
 
+		// list = new JTable(data, column);
+		// list.setBounds(30,40,200,300);
+		// JScrollPane sp = new JScrollPane(list);
+		// JPanel p = new JPanel();
+		// p.add(Box.createRigidArea(new Dimension()));
+		// p.add(sp);
+		// p.add(Box.createRigidArea(new Dimension(10,10)));
 
-		//list = new JTable(data, column);
-		//list.setBounds(30,40,200,300);
-		//		JScrollPane sp = new JScrollPane(list);
-		//		JPanel p = new JPanel();
-		//		p.add(Box.createRigidArea(new Dimension()));
-		//		p.add(sp);
-		//		p.add(Box.createRigidArea(new Dimension(10,10)));
-
-		inputPNL.add(Box.createRigidArea(new Dimension(10,0)));
+		inputPNL.add(Box.createRigidArea(new Dimension(10, 0)));
 		inputPNL.add(labs());
 
 		JPanel sets = new JPanel(new BorderLayout());
@@ -102,103 +102,128 @@ public class ExampleGUI extends JFrame{
 		add(sets, BorderLayout.SOUTH);
 	}
 
-	private class ButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			if(checking.isSelected()){
+	private class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (checking.isSelected()) {
 				tInput[4].setEnabled(true);
 				tInput[5].setEnabled(false);
 				tInput[6].setEnabled(false);
-			}else if(savings.isSelected()){
+			} else if (savings.isSelected()) {
 				tInput[4].setEnabled(false);
 				tInput[5].setEnabled(true);
 				tInput[6].setEnabled(true);
 			}
-			if(e.getSource() == addBTN){
-				if((!tInput[0].getText().trim().equals("")) 
-						&& (!tInput[1].getText().trim().equals("")) 
-						&& (!tInput[3].getText().trim().equals("")) 
-						&& (tInput[0].getText().trim().replaceAll("[a-zA-Z]", "").equals(tInput[0].getText()))
-						&& (tInput[1].getText().trim().replaceAll("[0-9]", "").equals(tInput[1].getText()))
-						&& (tInput[3].getText().trim().replaceAll("[a-zA-Z]", "").equals(tInput[3].getText()))){
+			if (e.getSource() == addBTN) {
+				if ((!tInput[0].getText().trim().equals(""))
+						&& (!tInput[1].getText().trim().equals(""))
+						&& (!tInput[3].getText().trim().equals(""))
+						&& (tInput[0].getText().trim()
+								.replaceAll("[a-zA-Z]", "")
+								.equals(tInput[0].getText()))
+						&& (tInput[1].getText().trim()
+								.replaceAll("[0-9]", "")
+								.equals(tInput[1].getText()))
+						&& (tInput[3].getText().trim()
+								.replaceAll("[a-zA-Z]", "")
+								.equals(tInput[3].getText()))) {
 					accounts.repaint();
-					int number = Integer.parseInt(tInput[0].getText().trim());
+					int number = Integer
+							.parseInt(tInput[0].getText().trim());
 					String own = tInput[1].getText().trim();
-					double bal = Double.parseDouble(tInput[3].getText().trim());
-					if(checking.isSelected()){
+					double bal = Double
+							.parseDouble(tInput[3].getText().trim());
+					if (checking.isSelected()) {
 						String str = tInput[4].getText().trim();
-						if((!str.equals("")) && (str.replaceAll("[a-zA-Z]", "").equals(str))){
-							double fee = Double.parseDouble(tInput[4].getText().trim());
+						if ((!str.equals(""))
+								&& (str.replaceAll("[a-zA-Z]", "")
+										.equals(str))) {
+							double fee = Double.parseDouble(
+									tInput[4].getText().trim());
 							String dInput = tInput[2].getText().trim();
 							Date date;
 							try {
-								SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+								SimpleDateFormat format = new SimpleDateFormat(
+										"MM/dd/yyyy");
 								date = format.parse(dInput);
 								GregorianCalendar cal = new GregorianCalendar();
 								cal.setTime(date);
-								CheckingAccount c = new CheckingAccount(number, own, cal, bal, fee);
+								CheckingAccount c = new CheckingAccount(
+										number, own, cal, bal, fee);
 								ld.addElement(c);
 							} catch (ParseException e1) {
-								JOptionPane.showMessageDialog(null,"Date format must match MM/dd/yyyy");
+								JOptionPane.showMessageDialog(null,
+										"Date format must match MM/dd/yyyy");
 							}
-						}else{
-							JOptionPane.showMessageDialog(null,"Opps! Something went wrong.");
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Opps! Something went wrong.");
 						}
-					}else if(savings.isSelected()){
+					} else if (savings.isSelected()) {
 						String s = tInput[5].getText().trim();
 						String d = tInput[6].getText().trim();
-						if((!s.equals("")) && (!d.equals(""))
-								&& (s.replaceAll("[a-zA-Z]", "").equals(s))
-								&& (d.replaceAll("[a-zA-Z]", "").equals(d))){
+						if ((!s.equals("")) && (!d.equals(""))
+								&& (s.replaceAll("[a-zA-Z]", "")
+										.equals(s))
+								&& (d.replaceAll("[a-zA-Z]", "")
+										.equals(d))) {
 
-							double mBal = Double.parseDouble(tInput[5].getText().trim());
-							double r = Double.parseDouble(tInput[6].getText().trim());
+							double mBal = Double.parseDouble(
+									tInput[5].getText().trim());
+							double r = Double.parseDouble(
+									tInput[6].getText().trim());
 							String dInput = tInput[2].getText().trim();
-							SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+							SimpleDateFormat format = new SimpleDateFormat(
+									"MM/dd/yyyy");
 							Date date;
 							try {
 								date = format.parse(dInput);
 								GregorianCalendar cal = new GregorianCalendar();
 								cal.setTime(date);
-								SavingsAccount c = new SavingsAccount(number, own, cal, bal, mBal, r);
+								SavingsAccount c = new SavingsAccount(
+										number, own, cal, bal, mBal, r);
 								ld.addElement(c);
 							} catch (ParseException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-						}else{
-							JOptionPane.showMessageDialog(null,"Opps! Something went wrong.");
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Opps! Something went wrong.");
 						}
-					}else{
-						JOptionPane.showMessageDialog(null,"Please select one of the check boxes");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Please select one of the check boxes");
 					}
-				}else{
-					JOptionPane.showMessageDialog(null,"Opps! Something went wrong.");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Opps! Something went wrong.");
 				}
 			}
-			if(e.getSource() == delete){
+			if (e.getSource() == delete) {
 				accounts.repaint();
 				ld.delete(accounts.getSelectedValue());
 			}
-			if(e.getSource() == accountN){
+			if (e.getSource() == accountN) {
 				ld.sort();
-			}else if(e.getSource() == accountO){
+			} else if (e.getSource() == accountO) {
 
-			}else if(e.getSource() == dateO){
+			} else if (e.getSource() == dateO) {
 
 			}
-			if(e.getSource() == quitItem){
+			if (e.getSource() == quitItem) {
 				System.exit(0);
 			}
-			if(e.getSource() == saveText){
-				if (accounts.getSelectedIndex() != -1){
-					String play = JOptionPane.showInputDialog(null, "Name of File");
-					ld.saveText(play , accounts.getSelectedValue());
+			if (e.getSource() == saveText) {
+				if (accounts.getSelectedIndex() != -1) {
+					String play = JOptionPane.showInputDialog(null,
+							"Name of File");
+					ld.saveText(play, accounts.getSelectedValue());
 				}
 			}
 		}
 	}
 
-	private JPanel labs(){
+	private JPanel labs() {
 		JPanel panel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -225,7 +250,7 @@ public class ExampleGUI extends JFrame{
 		label[6] = new JLabel("Interest Rate: ");
 
 		tInput = new JTextField[7];
-		for (int i = 0; i < label.length; i++){
+		for (int i = 0; i < label.length; i++) {
 			tInput[i] = new JTextField(20);
 
 			panel.add(label[i], c);
@@ -236,7 +261,7 @@ public class ExampleGUI extends JFrame{
 		return panel;
 	}
 
-	public JMenuBar setupMenu(){
+	public JMenuBar setupMenu() {
 		ButtonListener ml = new ButtonListener();
 		menu = new JMenuBar();
 
@@ -251,13 +276,13 @@ public class ExampleGUI extends JFrame{
 		quitItem = new JMenuItem("Quit");
 		quitItem.addActionListener(ml);
 
-		loadBin = new JMenuItem("Load From Binary...");		
+		loadBin = new JMenuItem("Load From Binary...");
 		saveBin = new JMenuItem("Save As Binary...");
 
 		loadText = new JMenuItem("Load From Text...");
 		saveText = new JMenuItem("Save As Text...");
 
-		loadXML = new JMenuItem("Load From XML...");		
+		loadXML = new JMenuItem("Load From XML...");
 		saveXML = new JMenuItem("Save As XML...");
 
 		loadBin.addActionListener(ml);
@@ -278,9 +303,9 @@ public class ExampleGUI extends JFrame{
 		fileMenu.addSeparator();
 		fileMenu.add(quitItem);
 
-		accountN = new JMenuItem("By Account Number");		
+		accountN = new JMenuItem("By Account Number");
 		accountO = new JMenuItem("By Account Owner");
-		dateO = new JMenuItem("By Date Opened");		
+		dateO = new JMenuItem("By Date Opened");
 
 		accountN.addActionListener(ml);
 		accountO.addActionListener(ml);
