@@ -82,8 +82,9 @@ public class BankModel extends AbstractTableModel {
 			yourAccount.setOwner(updateStuff);
 			fireTableDataChanged();
 		case 3:
-			aNumber = Integer.parseInt(updateStuff);
-			yourAccount.setBalance(aNumber);
+			double bNumber;
+			bNumber = Double.parseDouble(updateStuff);
+			yourAccount.setBalance(bNumber);
 			fireTableDataChanged();
 		}
 
