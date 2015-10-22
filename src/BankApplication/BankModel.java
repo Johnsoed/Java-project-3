@@ -3,6 +3,7 @@ package BankApplication;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 public class BankModel extends AbstractTableModel {
@@ -65,6 +66,24 @@ public class BankModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int col){
     	return true; 
     	}
+    
+	public void update(int row, int column, String updateStuff) {
+		Account yourAccount = (Account)dataVector.get(row);
+		switch (column) {
+		case 0:
+			int aNumber;
+			aNumber = Integer.parseInt(updateStuff);
+			yourAccount.setNumber(aNumber);
+			fireTableDataChanged();
+		case 1:
+			JOptionPane.showMessageDialog(null,""
+					+ "Date opened can not be changed");
+		}
+
+		
+	}
+	
+
 }
 
 
