@@ -36,6 +36,18 @@ public class BankGui extends JFrame {
 	private BankModel ld;
 	
 	public BankGui(){
-		
+		String names[] = {"Number", "Date Opened", "Owner", "Balance"};
+		ld = new BankModel(names);
+		list = new JTable(ld);
+		JScrollPane scrollPane = new JScrollPane(list);
+		add(scrollPane);
+	}
+	
+	public static void main(String[] args){
+		BankGui bank = new BankGui();
+		bank.pack();
+		bank.setVisible(true);
+		bank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bank.setResizable(false);
 	}
 }
