@@ -78,6 +78,13 @@ public class BankModel extends AbstractTableModel {
 		case 1:
 			JOptionPane.showMessageDialog(null,""
 					+ "Date opened can not be changed");
+		case 2:
+			yourAccount.setOwner(updateStuff);
+			fireTableDataChanged();
+		case 3:
+			aNumber = Integer.parseInt(updateStuff);
+			yourAccount.setBalance(aNumber);
+			fireTableDataChanged();
 		}
 
 		

@@ -61,4 +61,11 @@ public class SavingsAccount extends Account {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	@Override
+	public boolean hasMonthlyFee() {
+		return false;
+	}
+
+
 }

@@ -73,4 +73,6 @@ public abstract class Account implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public abstract boolean hasMonthlyFee();
 }

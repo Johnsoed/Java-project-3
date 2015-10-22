@@ -48,5 +48,11 @@ public class CheckingAccount extends Account {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	@Override
+	public boolean hasMonthlyFee() {
+		return true;
+	}
+	
 }
 //hello fellow partners
