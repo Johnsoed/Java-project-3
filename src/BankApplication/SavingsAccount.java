@@ -9,6 +9,9 @@ public class SavingsAccount extends Account {
 
 	private double minBalance;
 	private double interestRate;
+	
+	public SavingsAccount(){
+	}
 
 	public SavingsAccount(int num, String own, GregorianCalendar d,
 			double bal, double minBal, double rate) {

@@ -8,6 +8,9 @@ public class CheckingAccount extends Account {
 	private static final long serialVersionUID = 1L;
 
 	private double monthlyFee;
+	
+	public CheckingAccount(){
+	}
 
 	public CheckingAccount(int num, String own, GregorianCalendar d, 
 			double bal, double fee) {
