@@ -1,5 +1,6 @@
 package BankApplication;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -7,10 +8,12 @@ import javax.swing.table.AbstractTableModel;
 public class BankModel extends AbstractTableModel {
 	protected String[] columnNames;
     protected Vector dataVector;
+    private ArrayList<Account> acts;
 	
 
     public BankModel(String[] columnNames) {
         this.columnNames = columnNames;
+        acts = new ArrayList<Account>();
         dataVector = new Vector();
     }
     
@@ -46,6 +49,18 @@ public class BankModel extends AbstractTableModel {
 			return new Object(); 
 		}
 				}
+	
+	public void add(Account other) {
+		dataVector.add(other);
+		fireTableRowsInserted(dataVector.size() - 1
+				,dataVector.size() - 1);
+	}
+	
+	public void delete(Account other) {
+		dataVector.remove(other);
+		fireTableRowsDeleted(dataVector.size() - 1
+				,dataVector.size() - 1);
+	}
 
     public boolean isCellEditable(int row, int col){
     	return true; 
