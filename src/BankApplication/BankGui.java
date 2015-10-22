@@ -36,7 +36,7 @@ public class BankGui extends JFrame {
 	private BankModel ld;
 	
 	public BankGui(){
-		String names[] = {"Number", "Date Opened", "Owner", "Balance"};
+		String names[] = {"Account Number", "Date Opened", "Account Owner", "Account Balance"};
 		ld = new BankModel(names);
 		list = new JTable(ld);
 		JScrollPane scrollPane = new JScrollPane(list);
