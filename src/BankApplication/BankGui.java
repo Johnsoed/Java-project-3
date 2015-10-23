@@ -23,7 +23,9 @@ public class BankGui extends JFrame {
 
 	private JMenuBar menuBar;
 
-	private JMenu file, Sort;
+	private JMenu file, Sort, Add;
+
+	private JMenuItem Savings, Checkings;
 
 	private JMenuItem sort_Account, sort_Owner, sort_Date;
 
@@ -37,8 +39,6 @@ public class BankGui extends JFrame {
 
 	private JTable list;
 
-	private JList<Account> accounts;
-
 	private JTextField[] tInput;
 
 	private BankModel ld;
@@ -48,6 +48,7 @@ public class BankGui extends JFrame {
 				"Account Owner", "Account Balance" };
 		ld = new BankModel(names);
 		list = new JTable(ld);
+		list.getTableHeader().setReorderingAllowed(false);
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
 		setJMenuBar(setupMenu());
@@ -67,6 +68,9 @@ public class BankGui extends JFrame {
 			if (e.getSource() == Sort) {
 
 			}
+			if (e.getSource() == Savings){
+				bankDialogBox();
+			}
 		}
 
 	}
@@ -82,6 +86,18 @@ public class BankGui extends JFrame {
 		Sort = new JMenu("Sort");
 		Sort.setMnemonic(KeyEvent.VK_S);
 		menuBar.add(Sort);
+
+		Add = new JMenu("Add");
+		Add.setMnemonic(KeyEvent.VK_A);
+		menuBar.add(Add);
+
+		Savings = new JMenuItem("Savings");
+		Add.add(Savings);
+		Savings.addActionListener(listener);
+		
+		Checkings = new JMenuItem("Checkings");
+		Add.add(Checkings);
+		Checkings.addActionListener(listener);
 
 		Quit = new JMenuItem("Close");
 		Quit.addActionListener(listener);
@@ -128,5 +144,27 @@ public class BankGui extends JFrame {
 		Sort.add(sort_Date);
 
 		return menuBar;
+	}
+	public void bankDialogBox() {
+		JTextField AccNumber = new JTextField(5);
+		JTextField AccOwner = new JTextField(5);
+		JTextField DateOpened = new JTextField(5);
+		JTextField AccBal = new JTextField(5);
+		JTextField IntRate = new JTextField(5);
+		JTextField MiniBal = new JTextField(5);
+
+		JPanel myPanel = new JPanel();
+		myPanel.add(new JLabel("Account Number: "));
+		myPanel.add(AccNumber);
+		myPanel.setLayout(new GridLayout(2,5)); // a spacer
+		myPanel.add(new JLabel("Account Owner: "));
+		myPanel.add(AccOwner);
+
+		int result = JOptionPane.showConfirmDialog(null, myPanel,
+				"Saving Acount",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			
+		}
 	}
 }
