@@ -70,7 +70,7 @@ public class BankGui extends JFrame {
 			}
 			if (e.getSource() == Savings){
 				try {
-					ld.add(bankDialogBox());
+					bankDialogBox();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -99,7 +99,7 @@ public class BankGui extends JFrame {
 		Savings = new JMenuItem("Savings");
 		Add.add(Savings);
 		Savings.addActionListener(listener);
-		
+
 		Checkings = new JMenuItem("Checkings");
 		Add.add(Checkings);
 		Checkings.addActionListener(listener);
@@ -150,7 +150,7 @@ public class BankGui extends JFrame {
 
 		return menuBar;
 	}
-	public Account bankDialogBox() throws ParseException {
+	public void bankDialogBox() throws ParseException{
 		JTextField AccNumber = new JTextField(15);
 		JTextField AccOwner = new JTextField(15);
 		JTextField DateOpened = new JTextField(15);
@@ -186,10 +186,8 @@ public class BankGui extends JFrame {
 			double rate = Double.parseDouble(IntRate.getText());
 			double mbal = Double.parseDouble(MiniBal.getText());
 			SavingsAccount s = new SavingsAccount(num, AccOwner.getText(), cal, bal, rate, mbal);
-			return s;
+			ld.add(s);
 		}else if (result == JOptionPane.CANCEL_OPTION){
-			return null;
 		}
-		return null;
 	}
 }
