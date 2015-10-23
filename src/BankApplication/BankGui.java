@@ -69,7 +69,12 @@ public class BankGui extends JFrame {
 
 			}
 			if (e.getSource() == Savings){
-				bankDialogBox();
+				try {
+					ld.add(bankDialogBox());
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 
@@ -145,26 +150,46 @@ public class BankGui extends JFrame {
 
 		return menuBar;
 	}
-	public void bankDialogBox() {
-		JTextField AccNumber = new JTextField(5);
-		JTextField AccOwner = new JTextField(5);
-		JTextField DateOpened = new JTextField(5);
-		JTextField AccBal = new JTextField(5);
-		JTextField IntRate = new JTextField(5);
-		JTextField MiniBal = new JTextField(5);
+	public Account bankDialogBox() throws ParseException {
+		JTextField AccNumber = new JTextField(15);
+		JTextField AccOwner = new JTextField(15);
+		JTextField DateOpened = new JTextField(15);
+		JTextField AccBal = new JTextField(15);
+		JTextField IntRate = new JTextField(15);
+		JTextField MiniBal = new JTextField(15);
 
 		JPanel myPanel = new JPanel();
+		myPanel.setLayout(new GridLayout(6,2)); // a spacer
 		myPanel.add(new JLabel("Account Number: "));
 		myPanel.add(AccNumber);
-		myPanel.setLayout(new GridLayout(2,5)); // a spacer
 		myPanel.add(new JLabel("Account Owner: "));
 		myPanel.add(AccOwner);
+		myPanel.add(new JLabel("Date Opened: "));
+		myPanel.add(DateOpened);
+		myPanel.add(new JLabel("Account Balance"));
+		myPanel.add(AccBal);
+		myPanel.add(new JLabel("Interest Rate"));
+		myPanel.add(IntRate);
+		myPanel.add(new JLabel("Minimum Balance"));
+		myPanel.add(MiniBal);
 
 		int result = JOptionPane.showConfirmDialog(null, myPanel,
 				"Saving Acount",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			
+			int num = Integer.parseInt(AccNumber.getText());
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+			Date date = format.parse(DateOpened.getText());
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+			double bal = Double.parseDouble(AccBal.getText());
+			double rate = Double.parseDouble(IntRate.getText());
+			double mbal = Double.parseDouble(MiniBal.getText());
+			SavingsAccount s = new SavingsAccount(num, AccOwner.getText(), cal, bal, rate, mbal);
+			return s;
+		}else if (result == JOptionPane.CANCEL_OPTION){
+			return null;
 		}
+		return null;
 	}
 }
