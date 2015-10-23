@@ -1,6 +1,7 @@
 package BankApplication;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -41,7 +42,9 @@ public class BankModel extends AbstractTableModel {
 		case 0:
 			return yourAccount.getNumber();
 		case 1:
-			return yourAccount.getDateOpened();
+			Calendar dateCal;
+			dateCal = yourAccount.getDateOpened();
+			return dateCal.getTime();
 		case 2: 
 			return yourAccount.getOwner();
 		case 3: 
