@@ -1,5 +1,6 @@
 package BankApplication;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
@@ -42,9 +43,8 @@ public class BankModel extends AbstractTableModel {
 		case 0:
 			return yourAccount.getNumber();
 		case 1:
-			Calendar dateCal;
-			dateCal = yourAccount.getDateOpened();
-			return dateCal.getTime();
+
+			return DateFormat.getDateInstance(DateFormat.SHORT).format(yourAccount.getDateOpened().getTime());
 		case 2: 
 			return yourAccount.getOwner();
 		case 3: 
