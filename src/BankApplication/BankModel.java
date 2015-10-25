@@ -151,11 +151,10 @@ public class BankModel extends AbstractTableModel {
 					GregorianCalendar date2 = ((Account) b).getDateOpened();
 					if (date1.before(date2)) 
 							return -1;
-					if (date2.before(date1)) 
+					if (date1.after(date2)) 
 						return 1;
-					if (date2.equals(date1)) 
-						return 0;		
-					else return 0; 
+					else return 0;
+
 
 			  }
 		});
