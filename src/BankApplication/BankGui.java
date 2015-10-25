@@ -68,9 +68,16 @@ public class BankGui extends JFrame {
 			if (e.getSource() == sort_Owner) {
 				ld.sortName();
 //				System.out.print("test");
-
-
 			}
+			if (e.getSource() == sort_Account) {
+				ld.sortAccount();
+//				System.out.print("test");
+			}
+			if (e.getSource() == 	sort_Date) {
+				ld.sortAccount();
+//				System.out.print("test");
+			}
+
 			if (e.getSource() == Savings){
 				try {
 					bankDialogBox();

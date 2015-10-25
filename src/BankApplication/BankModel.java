@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -120,6 +122,48 @@ public class BankModel extends AbstractTableModel {
 		});
 		fireTableDataChanged();
 		}
+	
+	
+	@SuppressWarnings("unchecked")
+	public void sortAccount() {
+		Collections.sort(dataVector, new Comparator() {
+				@Override
+			  public int compare(Object a, Object b) {
+					int o = ((Account) a).getNumber();
+					int i = ((Account) b).getNumber(); 
+					if (o>i)
+						return 1;
+					if (i>0)
+						return -1;
+					else 
+						return 0;
+			  }
+		});
+		fireTableDataChanged();
+		}
+	
+	@SuppressWarnings("unchecked")
+	public void sortDate() {
+		Collections.sort(dataVector, new Comparator() {
+				@Override
+			  public int compare(Object a, Object b) {
+					GregorianCalendar date1 = ((Account) a).getDateOpened();
+					GregorianCalendar date2 = ((Account) b).getDateOpened();
+					if (date1.before(date2)) 
+							return -1;
+					if (date2.before(date1)) 
+						return 1;
+					if (date2.equals(date1)) 
+						return 0;		
+					else return 0; 
+
+			  }
+		});
+		fireTableDataChanged();
+		}
+	
+	
+	
 	}
 
 
