@@ -65,7 +65,10 @@ public class BankGui extends JFrame {
 
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == Sort) {
+			if (e.getSource() == sort_Owner) {
+				ld.sortName();
+//				System.out.print("test");
+
 
 			}
 			if (e.getSource() == Savings){

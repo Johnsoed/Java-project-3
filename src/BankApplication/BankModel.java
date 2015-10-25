@@ -118,7 +118,7 @@ public class BankModel extends AbstractTableModel {
 						  (((Account) b).getOwner());
 			  }
 		});
-					
+		fireTableDataChanged();
 		}
 	}
 
