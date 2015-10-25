@@ -3,6 +3,8 @@ package BankApplication;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -44,7 +46,8 @@ public class BankModel extends AbstractTableModel {
 			return yourAccount.getNumber();
 		case 1:
 
-			return DateFormat.getDateInstance(DateFormat.SHORT).format(yourAccount.getDateOpened().getTime());
+			return DateFormat.getDateInstance(DateFormat.SHORT)
+					.format(yourAccount.getDateOpened().getTime());
 		case 2: 
 			return yourAccount.getOwner();
 		case 3: 
@@ -106,9 +109,22 @@ public class BankModel extends AbstractTableModel {
 
 		
 	}
-	
+	@SuppressWarnings("unchecked")
+	public void sortName() {
+		Collections.sort(dataVector, new Comparator() {
+				@Override
+			  public int compare(Object a, Object b) {
+				  return ((Account) a).getOwner().compareTo
+						  (((Account) b).getOwner());
+			  }
+		});
+					
+		}
+	}
 
-}
+
+
+
 
 
 
