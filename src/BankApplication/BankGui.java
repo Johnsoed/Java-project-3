@@ -45,7 +45,7 @@ public class BankGui extends JFrame {
 
 	public BankGui() {
 		String names[] = { "Account Number", "Date Opened",
-				"Account Owner", "Account Balance" };
+				"Account Owner", "Account Balance", "Information" };
 		ld = new BankModel(names);
 		list = new JTable(ld);
 		list.getTableHeader().setReorderingAllowed(false);
@@ -60,6 +60,7 @@ public class BankGui extends JFrame {
 		bank.pack();
 		bank.setVisible(true);
 		bank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bank.setSize(900, 400);
 		bank.setResizable(false);
 	}
 
