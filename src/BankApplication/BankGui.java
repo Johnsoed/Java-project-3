@@ -74,7 +74,7 @@ public class BankGui extends JFrame {
 //				System.out.print("test");
 			}
 			if (e.getSource() == 	sort_Date) {
-				ld.sortAccount();
+				ld.sortDate();
 //				System.out.print("test");
 			}
 
