@@ -66,6 +66,12 @@ public class SavingsAccount extends Account {
 	public boolean hasMonthlyFee() {
 		return false;
 	}
-
+	
+	@Override
+	public String outPut() {
+		String s = "<html>Minimum Balance: " + NumberFormat.getCurrencyInstance().format(minBalance);
+		s += "<br>Interest Rate: " + NumberFormat.getCurrencyInstance().format(interestRate);
+		return s;
+	}
 
 }

@@ -54,5 +54,11 @@ public class CheckingAccount extends Account {
 		return true;
 	}
 	
+	@Override
+	public String outPut() {
+		String s = "Monthly Fee: " + NumberFormat.getCurrencyInstance().format(monthlyFee);
+		return s;
+	}
+	
 }
 //hello fellow partners

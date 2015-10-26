@@ -77,4 +77,6 @@ public abstract class Account implements Serializable{
 	
 	public abstract boolean hasMonthlyFee();
 	
+	public abstract String outPut();
+	
 }
