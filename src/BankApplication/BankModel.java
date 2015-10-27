@@ -1,6 +1,7 @@
 package BankApplication;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -53,7 +54,10 @@ public class BankModel extends AbstractTableModel {
 		case 2: 
 			return yourAccount.getOwner();
 		case 3: 
-			return yourAccount.getBalance();
+			return NumberFormat.getCurrencyInstance().format(yourAccount.getBalance());
+		case 4:
+			return yourAccount.outPut();
+		
 		default: 
 			return new Object(); 
 		}
@@ -65,8 +69,8 @@ public class BankModel extends AbstractTableModel {
 				,dataVector.size() - 1);
 	}
 	
-	public void delete(Account other) {
-		dataVector.remove(other);
+	public void delete(int row) {
+		dataVector.remove(row);
 		fireTableRowsDeleted(dataVector.size() - 1
 				,dataVector.size() - 1);
 	}
