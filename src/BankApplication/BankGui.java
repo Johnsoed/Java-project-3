@@ -49,6 +49,7 @@ public class BankGui extends JFrame {
 		ld = new BankModel(names);
 		list = new JTable(ld);
 		list.getTableHeader().setReorderingAllowed(false);
+		list.setRowHeight(30);
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
 		setJMenuBar(setupMenu());
@@ -57,19 +58,27 @@ public class BankGui extends JFrame {
 			public void mouseClicked(java.awt.event.MouseEvent e){
 				int row = list.rowAtPoint(e.getPoint());
 				int col = list.columnAtPoint(e.getPoint());
-				//this works but just need to figure out how to update the selected column
-//			 JOptionPane.showInputDialog(null," Value in the cell clicked :"+ " " + list.getValueAt(row,col).toString());
+							
 			 String updateString = JOptionPane.showInputDialog 
 						(null, "enter new value");
 			 System.out.print(row +" " + col + " " + updateString);
+			 if(updateString != null){
 			 ld.update(row, col, updateString);
-			}
+			 }
+				}
+			 
+			 
+		 
+			
+		}
+			);
+			
 			
 	
 		
 
-		}
-	);
+		
+	
 	}
 
 	public static void main(String[] args) {
