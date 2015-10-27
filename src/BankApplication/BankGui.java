@@ -61,7 +61,7 @@ public class BankGui extends JFrame {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int row = list.rowAtPoint(e.getPoint());
 				int col = list.columnAtPoint(e.getPoint());
-				if (col == 4) {
+				if (col == 4) {				    
 					if (ld.isSavings(row) == true) {
 						String updateString = JOptionPane.showInputDialog(
 								null, "enter new value: min Balance ");
@@ -79,6 +79,8 @@ public class BankGui extends JFrame {
 							ld.update(row, 5, updateString2);
 						}
 					}
+					}
+					
 
 					else if (ld.isSavings(row) == false) {
 						String updateString4 = JOptionPane
