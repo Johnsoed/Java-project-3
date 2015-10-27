@@ -28,7 +28,7 @@ public class BankGui extends JFrame {
 
 	private JMenu file, Sort, Add;
 
-	private JMenuItem Savings, Checkings, Delete, Update;
+	private JMenuItem Savings, Checkings, Delete;
 
 	private JMenuItem sort_Account, sort_Owner, sort_Date;
 
@@ -61,7 +61,7 @@ public class BankGui extends JFrame {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int row = list.rowAtPoint(e.getPoint());
 				int col = list.columnAtPoint(e.getPoint());
-				if (col == 4) { 
+				if (col == 4) {
 					if (ld.isSavings(row) == true) {
 						String updateString = JOptionPane.showInputDialog(
 								null, "enter new value: min Balance ");
@@ -78,27 +78,25 @@ public class BankGui extends JFrame {
 						if (updateString2 != null) {
 							ld.update(row, 5, updateString2);
 						}
-						}
-				
-				
-				else if (ld.isSavings(row) == false) {
-					String updateString4 = JOptionPane
-							.showInputDialog(null, "enter new value");
-						ld.update(row, 4, updateString4);
-					} 
-				}
-				else if (col < 4) {
-
-						String updateString3 = JOptionPane
-								.showInputDialog(null, "enter new value");
-						System.out.print(
-								row + " " + col + " " + updateString3);
-						if (updateString3 != null) {
-							ld.update(row, col, updateString3);
-						}
-				 
 					}
-				
+
+					else if (ld.isSavings(row) == false) {
+						String updateString4 = JOptionPane
+								.showInputDialog(null, "enter new value");
+						ld.update(row, 4, updateString4);
+					}
+				} else if (col < 4) {
+
+					String updateString3 = JOptionPane
+							.showInputDialog(null, "enter new value");
+					System.out
+							.print(row + " " + col + " " + updateString3);
+					if (updateString3 != null) {
+						ld.update(row, col, updateString3);
+					}
+
+				}
+
 			}
 
 		});
@@ -144,9 +142,6 @@ public class BankGui extends JFrame {
 					e1.printStackTrace();
 				}
 			}
-			if (e.getSource() == Update) {
-
-			}
 
 			// change the delete to (int i) instead of (account other)
 			if (e.getSource() == Delete) {
@@ -182,10 +177,6 @@ public class BankGui extends JFrame {
 		Checkings = new JMenuItem("Checkings");
 		Add.add(Checkings);
 		Checkings.addActionListener(listener);
-
-		Update = new JMenuItem("Update");
-		Add.add(Update);
-		Update.addActionListener(listener);
 
 		Delete = new JMenuItem("Delete");
 		Add.add(Delete);
@@ -242,7 +233,8 @@ public class BankGui extends JFrame {
 		JTextField AccNumber = new JTextField(15);
 		JTextField AccOwner = new JTextField(15);
 		JDateChooser DateOpened = new JDateChooser();
-		JTextFieldDateEditor editor = (JTextFieldDateEditor) DateOpened.getDateEditor();
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) DateOpened
+				.getDateEditor();
 		editor.setEditable(false);
 		JTextField AccBal = new JTextField(15);
 		JTextField IntRate = new JTextField(15);
