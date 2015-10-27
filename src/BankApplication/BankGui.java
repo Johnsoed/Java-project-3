@@ -53,45 +53,50 @@ public class BankGui extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
 		setJMenuBar(setupMenu());
-		list.addMouseListener( new java.awt.event.MouseAdapter(){
-		
-			public void mouseClicked(java.awt.event.MouseEvent e){
+		list.addMouseListener(new java.awt.event.MouseAdapter() {
+
+			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int row = list.rowAtPoint(e.getPoint());
 				int col = list.columnAtPoint(e.getPoint());
-				if(col == 4){
-					if(ld.isSavings(row) == true){
-						String updateString = JOptionPane.showInputDialog 
-								(null, "enter new value: min Balance ");
-					 System.out.print(row +" " + col + " " + updateString);
-					 if(updateString != null){
-					 ld.update(row, 6, updateString);
-					 }
-					 String updateString2 = JOptionPane.showInputDialog 
-								(null, "enter new value: Interest Rate ");
-					 System.out.print(row +" " + col + " " + updateString2);
-					 if(updateString2 != null){
-					 ld.update(row, 5, updateString2);
-					}
-					
-					
+				if (col == 4) {
+					if (ld.isSavings(row) == true) {
+						String updateString = JOptionPane.showInputDialog(
+								null, "enter new value: min Balance ");
+						System.out.print(
+								row + " " + col + " " + updateString);
+						if (updateString != null) {
+							ld.update(row, 6, updateString);
+						}
+						String updateString2 = JOptionPane
+								.showInputDialog(null,
+										"enter new value: Interest Rate ");
+						System.out.print(
+								row + " " + col + " " + updateString2);
+						if (updateString2 != null) {
+							ld.update(row, 5, updateString2);
+						}
+						}
 				}
-				else if(col < 4){				
-			 String updateString3 = JOptionPane.showInputDialog 
-						(null, "enter new value");
-			 System.out.print(row +" " + col + " " + updateString3);
-			 if(updateString3 != null){
-			 ld.update(row, col, updateString3);
-			 }
-			 }
-				}
+				else if (ld.isSavings(row) == false) {
+
+					} 
+				else if (col < 4) {
+
+						String updateString3 = JOptionPane
+								.showInputDialog(null, "enter new value");
+						System.out.print(
+								row + " " + col + " " + updateString3);
+						if (updateString3 != null) {
+							ld.update(row, col, updateString3);
+						}
+				 
 					}
 				
-		
+			}
+
 		});
-		}
-		
-		
-		
+
+	}
 
 	public static void main(String[] args) {
 		BankGui bank = new BankGui();
