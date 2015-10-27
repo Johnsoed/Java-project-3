@@ -86,12 +86,14 @@ public class BankModel extends AbstractTableModel {
 			yourAccount.setNumber(aNumber);
 			fireTableDataChanged();
 			count =+1;
+			break;
 		}
 		case 1:
 		{
 			if (count <0 ) {
 			JOptionPane.showMessageDialog(null,""
 					+ "Date opened can not be changed");
+			break;
 			}
 		}
 		case 2:
@@ -99,6 +101,7 @@ public class BankModel extends AbstractTableModel {
 			if (count <= 0) {
 			yourAccount.setOwner(updateStuff);
 			fireTableDataChanged();
+			break;
 			}
 		}
 		case 3:
@@ -107,6 +110,7 @@ public class BankModel extends AbstractTableModel {
 			bNumber = Double.parseDouble(updateStuff);
 			yourAccount.setBalance(bNumber);
 			fireTableDataChanged();
+			break;
 		}
 			
 		case 4: {
@@ -121,6 +125,7 @@ public class BankModel extends AbstractTableModel {
 			else {
 				JOptionPane.showMessageDialog(null,""
 						+ "No monthly fee for savings account");	
+				break;
 				}
 		}
 		}
