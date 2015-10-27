@@ -132,10 +132,20 @@ public class BankModel extends AbstractTableModel {
 		
 		
 		}
+		case 5: 
+			double fNumber;
+			fNumber = Double.parseDouble(updateStuff);
+			((SavingsAccount) yourAccount).setInterestRate(fNumber);
+			fireTableDataChanged();
+			break;
 		
-		}
+		case 6:
+			fNumber = Double.parseDouble(updateStuff);
+			((SavingsAccount) yourAccount).setMinBalance(fNumber);
+			fireTableDataChanged();
+			break;
 
-		
+		}
 	}
 	@SuppressWarnings("unchecked")
 	public void sortName() {
@@ -192,8 +202,16 @@ public class BankModel extends AbstractTableModel {
 		}
 	
 	
+	public boolean isSavings( int row) {
+		Account yourAccount = (Account)dataVector.get(row);
+		if (yourAccount.hasMonthlyFee() == false) 
+			return true; 
+		else 
+			return false; 
 	
 	}
+	
+}
 
 
 
