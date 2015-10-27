@@ -59,6 +59,9 @@ public class BankGui extends JFrame {
 				int col = list.columnAtPoint(e.getPoint());
 				//this works but just need to figure out how to update the selected column
 			 JOptionPane.showInputDialog(null," Value in the cell clicked :"+ " " + list.getValueAt(row,col).toString());
+			 String updateString = JOptionPane.showInputDialog 
+						(null, "new value");
+			 ld.update(row, col, updateString);
 			}
 			
 	
