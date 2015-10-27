@@ -127,10 +127,10 @@ public class BankModel extends AbstractTableModel {
 			else {
 				JOptionPane.showMessageDialog(null,""
 						+ "No monthly fee for savings account");	
-				break;
+				
 				}
 		
-		
+		break;
 		}
 		case 5: 
 			double fNumber;
