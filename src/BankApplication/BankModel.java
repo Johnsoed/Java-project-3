@@ -96,6 +96,7 @@ public class BankModel extends AbstractTableModel {
 			fireTableDataChanged();
 			
 		case 4:
+		{
 			if (yourAccount.hasMonthlyFee() == true) {
 				double fNumber;
 				fNumber = Double.parseDouble(updateStuff);
@@ -106,6 +107,7 @@ public class BankModel extends AbstractTableModel {
 				JOptionPane.showMessageDialog(null,""
 						+ "No monthly fee for savings account");	
 				}
+		}
 		
 		}
 

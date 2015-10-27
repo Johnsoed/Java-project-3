@@ -61,6 +61,7 @@ public class BankGui extends JFrame {
 			 JOptionPane.showInputDialog(null," Value in the cell clicked :"+ " " + list.getValueAt(row,col).toString());
 			 String updateString = JOptionPane.showInputDialog 
 						(null, "new value");
+			 System.out.print(row +" " + col + " " + updateString);
 			 ld.update(row, col, updateString);
 			}
 			
