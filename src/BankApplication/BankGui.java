@@ -145,7 +145,7 @@ public class BankGui extends JFrame {
 
 			// change the delete to (int i) instead of (account other)
 			if (e.getSource() == Delete) {
-				// ld.delete(list.getSelectedRow());
+				 ld.delete(list.getSelectedRow());
 			}
 			if (e.getSource() == Quit) {
 				System.exit(EXIT_ON_CLOSE);

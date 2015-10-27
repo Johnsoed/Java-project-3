@@ -17,7 +17,7 @@ public class BankModel extends AbstractTableModel {
 	protected String[] columnNames;
     protected Vector dataVector;
     private ArrayList<Account> acts;
-	
+	// blah
 
     public BankModel(String[] columnNames) {
         this.columnNames = columnNames;
