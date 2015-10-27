@@ -9,6 +9,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.*;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class BankGui extends JFrame {
 
@@ -238,7 +241,9 @@ public class BankGui extends JFrame {
 	public void bankDialogBox(boolean check) throws ParseException {
 		JTextField AccNumber = new JTextField(15);
 		JTextField AccOwner = new JTextField(15);
-		JTextField DateOpened = new JTextField(15);
+		JDateChooser DateOpened = new JDateChooser();
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) DateOpened.getDateEditor();
+		editor.setEditable(false);
 		JTextField AccBal = new JTextField(15);
 		JTextField IntRate = new JTextField(15);
 		JTextField MiniBal = new JTextField(15);
@@ -265,11 +270,8 @@ public class BankGui extends JFrame {
 					"Saving Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				int num = Integer.parseInt(AccNumber.getText());
-				SimpleDateFormat format = new SimpleDateFormat(
-						"MM/dd/yyyy");
-				Date date = format.parse(DateOpened.getText());
 				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
+				cal.setTime(DateOpened.getDate());
 				double bal = Double.parseDouble(AccBal.getText());
 				double rate = Double.parseDouble(IntRate.getText());
 				double mbal = Double.parseDouble(MiniBal.getText());
@@ -286,11 +288,8 @@ public class BankGui extends JFrame {
 					"Checking Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				int num = Integer.parseInt(AccNumber.getText());
-				SimpleDateFormat format = new SimpleDateFormat(
-						"MM/dd/yyyy");
-				Date date = format.parse(DateOpened.getText());
 				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
+				cal.setTime(DateOpened.getDate());
 				double bal = Double.parseDouble(AccBal.getText());
 				double fee = Double.parseDouble(MonFee.getText());
 				CheckingAccount s = new CheckingAccount(num,
