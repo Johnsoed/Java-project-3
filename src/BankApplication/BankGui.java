@@ -83,7 +83,9 @@ public class BankGui extends JFrame {
 					else if (ld.isSavings(row) == false) {
 						String updateString4 = JOptionPane
 								.showInputDialog(null, "enter new value");
+						if (updateString4 != null) {
 						ld.update(row, 4, updateString4);
+						}
 					}
 				} else if (col < 4) {
 
