@@ -59,8 +59,8 @@ public class BankModel extends AbstractTableModel {
 		}
 				}
 	
-	public void add(Account other) {
-		dataVector.add(other);
+	public void add(Account Other) {
+		dataVector.add(Other);
 		fireTableRowsInserted(dataVector.size() - 1
 				,dataVector.size() - 1);
 	}

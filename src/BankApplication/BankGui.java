@@ -52,7 +52,20 @@ public class BankGui extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
 		setJMenuBar(setupMenu());
+		list.addMouseListener( new java.awt.event.MouseAdapter(){
+		
+			public void mouseClicked(java.awt.event.MouseEvent e){
+				int row = list.rowAtPoint(e.getPoint());
+				int col = list.columnAtPoint(e.getPoint());
+				//this works but just need to figure out how to update the selected column
+			 JOptionPane.showInputDialog(null," Value in the cell clicked :"+ " " + list.getValueAt(row,col).toString());
+			}
+			
+	
+		
 
+		}
+	);
 	}
 
 	public static void main(String[] args) {
@@ -68,17 +81,17 @@ public class BankGui extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == sort_Owner) {
 				ld.sortName();
-//				System.out.print("test");
+				// System.out.print("test");
 			}
 			if (e.getSource() == sort_Account) {
 				ld.sortAccount();
-//				System.out.print("test");
+				// System.out.print("test");
 			}
-			if (e.getSource() == 	sort_Date) {
+			if (e.getSource() == sort_Date) {
 				ld.sortDate();
-//				System.out.print("test");
+				// System.out.print("test");
 			}
-			if (e.getSource() == Checkings){
+			if (e.getSource() == Checkings) {
 				try {
 					bankDialogBox(true);
 				} catch (ParseException e1) {
@@ -86,7 +99,7 @@ public class BankGui extends JFrame {
 					e1.printStackTrace();
 				}
 			}
-			if (e.getSource() == Savings){
+			if (e.getSource() == Savings) {
 				try {
 					bankDialogBox(false);
 				} catch (ParseException e1) {
@@ -94,13 +107,16 @@ public class BankGui extends JFrame {
 					e1.printStackTrace();
 				}
 			}
-			if (e.getSource() == Update){
-				
+			if (e.getSource() == Update) {
+
 			}
-			
-			//change the delete to (int i) instead of (account other)
-			if (e.getSource() == Delete){
-				ld.delete(list.getSelectedRow()); 
+
+			// change the delete to (int i) instead of (account other)
+			if (e.getSource() == Delete) {
+				// ld.delete(list.getSelectedRow());
+			}
+			if (e.getSource() == Quit) {
+				System.exit(EXIT_ON_CLOSE);
 			}
 		}
 
@@ -129,11 +145,11 @@ public class BankGui extends JFrame {
 		Checkings = new JMenuItem("Checkings");
 		Add.add(Checkings);
 		Checkings.addActionListener(listener);
-		
+
 		Update = new JMenuItem("Update");
 		Add.add(Update);
 		Update.addActionListener(listener);
-		
+
 		Delete = new JMenuItem("Delete");
 		Add.add(Delete);
 		Delete.addActionListener(listener);
@@ -184,7 +200,8 @@ public class BankGui extends JFrame {
 
 		return menuBar;
 	}
-	public void bankDialogBox(boolean check) throws ParseException{
+
+	public void bankDialogBox(boolean check) throws ParseException {
 		JTextField AccNumber = new JTextField(15);
 		JTextField AccOwner = new JTextField(15);
 		JTextField DateOpened = new JTextField(15);
@@ -194,7 +211,7 @@ public class BankGui extends JFrame {
 		JTextField MonFee = new JTextField(15);
 
 		JPanel myPanel = new JPanel();
-		myPanel.setLayout(new GridLayout(6,2)); // a spacer
+		myPanel.setLayout(new GridLayout(6, 2)); // a spacer
 		myPanel.add(new JLabel("Account Number: "));
 		myPanel.add(AccNumber);
 		myPanel.add(new JLabel("Account Owner: "));
@@ -204,44 +221,46 @@ public class BankGui extends JFrame {
 		myPanel.add(new JLabel("Account Balance: "));
 		myPanel.add(AccBal);
 
-		if(check == false) {
+		if (check == false) {
 			myPanel.add(new JLabel("Interest Rate: "));
 			myPanel.add(IntRate);
 			myPanel.add(new JLabel("Minimum Balance: "));
 			myPanel.add(MiniBal);
 
 			int result = JOptionPane.showConfirmDialog(null, myPanel,
-					"Saving Acount",
-					JOptionPane.OK_CANCEL_OPTION);
+					"Saving Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				int num = Integer.parseInt(AccNumber.getText());
-				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat(
+						"MM/dd/yyyy");
 				Date date = format.parse(DateOpened.getText());
 				GregorianCalendar cal = new GregorianCalendar();
 				cal.setTime(date);
 				double bal = Double.parseDouble(AccBal.getText());
 				double rate = Double.parseDouble(IntRate.getText());
 				double mbal = Double.parseDouble(MiniBal.getText());
-				SavingsAccount s = new SavingsAccount(num, AccOwner.getText(), cal, bal, mbal, rate);
+				SavingsAccount s = new SavingsAccount(num,
+						AccOwner.getText(), cal, bal, mbal, rate);
 				ld.add(s);
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}
-		}else if(check == true){
+		} else if (check == true) {
 			myPanel.add(new JLabel("Monthly Fee: "));
 			myPanel.add(MonFee);
 
 			int result = JOptionPane.showConfirmDialog(null, myPanel,
-					"Checking Acount",
-					JOptionPane.OK_CANCEL_OPTION);
+					"Checking Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				int num = Integer.parseInt(AccNumber.getText());
-				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat(
+						"MM/dd/yyyy");
 				Date date = format.parse(DateOpened.getText());
 				GregorianCalendar cal = new GregorianCalendar();
 				cal.setTime(date);
 				double bal = Double.parseDouble(AccBal.getText());
 				double fee = Double.parseDouble(MonFee.getText());
-				CheckingAccount s = new CheckingAccount(num, AccOwner.getText(), cal, bal, fee);
+				CheckingAccount s = new CheckingAccount(num,
+						AccOwner.getText(), cal, bal, fee);
 				ld.add(s);
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}

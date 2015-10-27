@@ -102,7 +102,7 @@ public class ExampleGUI extends JFrame {
 		add(sets, BorderLayout.SOUTH);
 	}
 
-	private class ButtonListener implements ActionListener {
+	public class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (checking.isSelected()) {
 				tInput[4].setEnabled(true);
