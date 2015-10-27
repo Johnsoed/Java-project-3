@@ -77,33 +77,31 @@ public class BankModel extends AbstractTableModel {
     
 	public void update(int row, int column, String updateStuff) {
 		Account yourAccount = (Account)dataVector.get(row);
-		int count = 0;
 		switch (column) {
 		case 0:
-		{
+		
 			int aNumber;
 			aNumber = Integer.parseInt(updateStuff);
 			yourAccount.setNumber(aNumber);
 			fireTableDataChanged();
-			count =+1;
 			break;
-		}
+		
 		case 1:
-		{
-			if (count <0 ) {
+		
+	
 			JOptionPane.showMessageDialog(null,""
 					+ "Date opened can not be changed");
 			break;
-			}
-		}
+			
+		
 		case 2:
-		{
-			if (count <= 0) {
+		
+		
 			yourAccount.setOwner(updateStuff);
 			fireTableDataChanged();
 			break;
-			}
-		}
+			
+		
 		case 3:
 		{
 			double bNumber;
@@ -113,8 +111,8 @@ public class BankModel extends AbstractTableModel {
 			break;
 		}
 			
-		case 4: {
-			if (count <= 0) {
+		case 4: 
+
 		{
 			if (yourAccount.hasMonthlyFee() == true) {
 				double fNumber;
@@ -127,8 +125,8 @@ public class BankModel extends AbstractTableModel {
 						+ "No monthly fee for savings account");	
 				break;
 				}
-		}
-		}
+		
+		
 		}
 		
 		}
