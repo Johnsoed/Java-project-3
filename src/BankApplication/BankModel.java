@@ -86,6 +86,7 @@ public class BankModel extends AbstractTableModel {
     
 	public void update(int row, int column, String updateStuff) {
 		Account yourAccount = (Account)dataVector.get(row);
+		try {
 		switch (column) {
 		case 0:
 		
@@ -151,6 +152,12 @@ public class BankModel extends AbstractTableModel {
 			break;
 
 		}
+		}
+		catch (NumberFormatException e) {
+			
+		}
+		
+		
 	}
 	@SuppressWarnings("unchecked")
 	public void sortName() {
