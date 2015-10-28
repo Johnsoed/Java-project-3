@@ -105,12 +105,11 @@ public class BankModel extends AbstractTableModel {
 			
 		
 		case 2:
-		
-		
+			if (updateStuff.length() > 1) {
 			yourAccount.setOwner(updateStuff);
 			fireTableDataChanged();
 			break;
-			
+			}
 		
 		case 3:
 		{
