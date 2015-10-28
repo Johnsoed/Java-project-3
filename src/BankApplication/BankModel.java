@@ -70,9 +70,14 @@ public class BankModel extends AbstractTableModel {
 	}
 	
 	public void delete(int row) {
+		try {
 		dataVector.remove(row);
 		fireTableRowsDeleted(dataVector.size() - 1
 				,dataVector.size() - 1);
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			JOptionPane.showMessageDialog(null,"Account not selected");
+		}
 	}
 
     public boolean isCellEditable(int row, int col){
