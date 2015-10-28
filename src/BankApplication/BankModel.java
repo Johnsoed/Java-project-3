@@ -81,7 +81,7 @@ public class BankModel extends AbstractTableModel {
 	}
 
     public boolean isCellEditable(int row, int col){
-    	return true; 
+    	return false; 
     	}
     
 	public void update(int row, int column, String updateStuff) {
