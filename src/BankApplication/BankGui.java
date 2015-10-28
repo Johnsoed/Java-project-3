@@ -275,7 +275,7 @@ public class BankGui extends JFrame {
 				ld.add(s);
 				}
 				
-				catch ( NumberFormatException e) {
+				catch ( Exception e) {
 					JOptionPane.showMessageDialog(null,""
 							+ "Fields left empty, or not entered correctly");
 				}
@@ -298,7 +298,7 @@ public class BankGui extends JFrame {
 						AccOwner.getText(), cal, bal, fee);
 				ld.add(s);
 				}
-				catch ( NumberFormatException e) {
+				catch ( Exception e) {
 					JOptionPane.showMessageDialog(null,""
 							+ "Fields left empty, or not entered correctly");
 				}
