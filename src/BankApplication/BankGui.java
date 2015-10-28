@@ -61,7 +61,7 @@ public class BankGui extends JFrame {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int row = list.rowAtPoint(e.getPoint());
 				int col = list.columnAtPoint(e.getPoint());
-				if (col == 4) {				    
+				if (col == 4) {
 					if (ld.isSavings(row) == true) {
 						String updateString = JOptionPane.showInputDialog(
 								null, "enter new value: min Balance ");
@@ -79,8 +79,6 @@ public class BankGui extends JFrame {
 							ld.update(row, 5, updateString2);
 						}
 					}
-					}
-					
 
 					else if (ld.isSavings(row) == false) {
 						String updateString4 = JOptionPane
@@ -265,6 +263,7 @@ public class BankGui extends JFrame {
 			int result = JOptionPane.showConfirmDialog(null, myPanel,
 					"Saving Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
+				try {
 				int num = Integer.parseInt(AccNumber.getText());
 				GregorianCalendar cal = new GregorianCalendar();
 				cal.setTime(DateOpened.getDate());
@@ -274,6 +273,12 @@ public class BankGui extends JFrame {
 				SavingsAccount s = new SavingsAccount(num,
 						AccOwner.getText(), cal, bal, mbal, rate);
 				ld.add(s);
+				}
+				
+				catch ( NumberFormatException e) {
+					JOptionPane.showMessageDialog(null,""
+							+ "Fields left empty, or not entered correctly");
+				}
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}
 		} else if (check == true) {
@@ -283,6 +288,7 @@ public class BankGui extends JFrame {
 			int result = JOptionPane.showConfirmDialog(null, myPanel,
 					"Checking Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
+				try {
 				int num = Integer.parseInt(AccNumber.getText());
 				GregorianCalendar cal = new GregorianCalendar();
 				cal.setTime(DateOpened.getDate());
@@ -291,6 +297,12 @@ public class BankGui extends JFrame {
 				CheckingAccount s = new CheckingAccount(num,
 						AccOwner.getText(), cal, bal, fee);
 				ld.add(s);
+				}
+				catch ( NumberFormatException e) {
+					JOptionPane.showMessageDialog(null,""
+							+ "Fields left empty, or not entered correctly");
+				}
+				
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}
 		}
