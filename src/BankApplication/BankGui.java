@@ -88,12 +88,12 @@ public class BankGui extends JFrame {
 						}
 					}
 				} else if (col < 4) {
-
 					String updateString3 = JOptionPane
 							.showInputDialog(null, "enter new value");
 					System.out
 							.print(row + " " + col + " " + updateString3);
-					if (updateString3 != null) {
+				
+					 if (updateString3 != null) {
 						ld.update(row, col, updateString3);
 					}
 
@@ -132,7 +132,7 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(true);
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
+					//  Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -140,7 +140,7 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(false);
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
+					//  Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
