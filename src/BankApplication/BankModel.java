@@ -2,6 +2,7 @@ package BankApplication;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -284,42 +286,61 @@ java.io.Serializable {
 	}
 	
 	
-	public void saveTableText(JTable list)throws Exception
+	public void saveTable()throws Exception
 	{
-	  BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
-	  for(int i = 0 ; i < list.getColumnCount() ; i++)
-	  {
-	    bfw.write(list.getColumnName(i));
-	    bfw.write("\t" + ":");
-	  }
+	   BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
+	   for(int i = 0 ; i < dataVector.size() ; i++)
+	   {
+	      //gregoriancalandar have to be split so that they can be
+	      //added later on easily
+	      Account yourAccount = (Account)dataVector.get(i);
+	      bfw.write(yourAccount.getNumber() + "|");
+	      GregorianCalendar date = yourAccount.getDateOpened();
+	      bfw.write((date.get(Calendar.MONTH) + 1) + "|");
+	      bfw.write(date.get(Calendar.DATE) + "|");
+	      bfw.write(date.get(Calendar.YEAR) + "|");
+	      bfw.write(yourAccount.getOwner() + "|");
+	      bfw.write(yourAccount.getBalance() + "|");
+	      if (yourAccount.hasMonthlyFee() == true){
+	         bfw.write(((CheckingAccount) yourAccount).getMonthlyFee() + "");
+	         bfw.newLine();
+	      }else{
+	         bfw.write(((SavingsAccount) yourAccount).getMinBalance() + "|");
+	         bfw.write(((SavingsAccount) yourAccount).getInterestRate() + "");
+	         bfw.newLine();
+	      }
+	   }
 
-	  for (int i = 0 ; i < list.getRowCount(); i++)
-	  {
-	    bfw.newLine();
-	    for(int j = 0 ; j < list.getColumnCount();j++)
-	    {
-	      bfw.write((String)(list.getValueAt(i,j) + ""));
-	      bfw.write("\t" + ":");;
-	    }
-	  }
-	  bfw.close();
+	   bfw.close();
 	}
-	
-	
-//	public void loadText() {
-//		DefaultTableModel model = new DefaultTableModel();
-//		BufferedReader br = new BufferedReader(new FileReader(Data.txt)) {
-//
-//		String line = br.readLine();
-//		String[] colHeaders = line.split("\\s+");
-//		model.setColumnIdentifiers(colHeaders);
-//
-//		while ((line = br.readLine()) != null) {
-//		String[] data = line.split("\\s+");
-//		model.addRow(data);
-//		    }
-//		}
-//	}
+
+	public void loadTable() throws Exception{
+	   dataVector.clear();
+	   Scanner fileReader = new Scanner(new File("Data.txt"));
+	   while(fileReader.hasNextLine()) {           //reads each line and see if there is next()
+	      String line = fileReader.nextLine();      //reads each line in the text file
+	      String[] tokens = line.split("\\|");      // splits that string line by |
+	      int n = Integer.parseInt(tokens[0]);      //changes to int from first object in string array
+	      int m = Integer.parseInt(tokens[1]);      //adds mm/dd/yyyy to int and into gregoriancalandar
+	      int d = Integer.parseInt(tokens[2]);
+	      int y = Integer.parseInt(tokens[3]);
+	      GregorianCalendar date = new GregorianCalendar(y, m - 1, d);
+	      String name = tokens[4];               //adds the owner name
+	      Double balance = Double.parseDouble(tokens[5]);
+	      if (tokens.length == 7) {
+	         Double monthly = Double.parseDouble(tokens[6]);
+	         CheckingAccount check = new CheckingAccount(n, name, date, balance, monthly);
+	         dataVector.add(check);
+	      } else {
+	         Double minBal = Double.parseDouble(tokens[6]);
+	         Double r = Double.parseDouble(tokens[7]);
+	         SavingsAccount save = new SavingsAccount(n, name, date, balance, minBal, r);
+	         dataVector.add(save);
+	      }
+	   }
+	   fireTableDataChanged();
+	   //reading whats inside the text file may help what is going on.
+	}
 	
 
 

@@ -157,7 +157,15 @@ public class BankGui extends JFrame {
 			
 			if (e.getSource() == file_save_Text){
 				try {
-					ld.saveTableText(list);
+					ld.saveTable();
+				} catch (Exception e1) {
+					//  Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			if (e.getSource() == file_load_Text){
+				try {
+					ld.loadTable();
 				} catch (Exception e1) {
 					//  Auto-generated catch block
 					e1.printStackTrace();
