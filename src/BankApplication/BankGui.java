@@ -2,6 +2,8 @@ package BankApplication;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -151,6 +153,23 @@ public class BankGui extends JFrame {
 			}
 			if (e.getSource() == Quit) {
 				System.exit(EXIT_ON_CLOSE);
+			}
+			
+			if (e.getSource() == file_save_Text){
+				try {
+					saveTable();
+				} catch (Exception e1) {
+					//  Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			if(e.getSource() == file_save_bin){
+				ld.saveBinary();
+			}
+			
+			if(e.getSource() == file_load_bin){
+				ld.loadBinary();
 			}
 		}
 
@@ -306,5 +325,25 @@ public class BankGui extends JFrame {
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}
 		}
+	}
+	public void saveTable()throws Exception
+	{
+	  BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
+	  for(int i = 0 ; i < list.getColumnCount() ; i++)
+	  {
+	    bfw.write(list.getColumnName(i));
+	    bfw.write("\t");
+	  }
+
+	  for (int i = 0 ; i < list.getRowCount(); i++)
+	  {
+	    bfw.newLine();
+	    for(int j = 0 ; j < list.getColumnCount();j++)
+	    {
+	      bfw.write((String)(list.getValueAt(i,j)));
+	      bfw.write("\t");;
+	    }
+	  }
+	  bfw.close();
 	}
 }
