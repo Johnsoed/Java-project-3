@@ -308,7 +308,7 @@ java.io.Serializable {
 	
 //	public void loadText() {
 //		DefaultTableModel model = new DefaultTableModel();
-//		BufferedReader br = new BufferedReader(new FileReader(file)) {
+//		BufferedReader br = new BufferedReader(new FileReader(Data.txt)) {
 //
 //		String line = br.readLine();
 //		String[] colHeaders = line.split("\\s+");
