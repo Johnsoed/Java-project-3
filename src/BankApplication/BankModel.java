@@ -1,7 +1,9 @@
 package BankApplication;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +18,7 @@ import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 public class BankModel extends AbstractTableModel implements
@@ -276,6 +279,28 @@ java.io.Serializable {
 		}
 	
 	
+	}
+	
+	
+	public void saveTableText(JTable list)throws Exception
+	{
+	  BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
+	  for(int i = 0 ; i < list.getColumnCount() ; i++)
+	  {
+	    bfw.write(list.getColumnName(i));
+	    bfw.write("\t" + ":");
+	  }
+
+	  for (int i = 0 ; i < list.getRowCount(); i++)
+	  {
+	    bfw.newLine();
+	    for(int j = 0 ; j < list.getColumnCount();j++)
+	    {
+	      bfw.write((String)(list.getValueAt(i,j) + ""));
+	      bfw.write("\t" + ":");;
+	    }
+	  }
+	  bfw.close();
 	}
 
 

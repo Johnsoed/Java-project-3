@@ -157,7 +157,7 @@ public class BankGui extends JFrame {
 			
 			if (e.getSource() == file_save_Text){
 				try {
-					saveTable();
+					ld.saveTableText(list);
 				} catch (Exception e1) {
 					//  Auto-generated catch block
 					e1.printStackTrace();
@@ -326,26 +326,7 @@ public class BankGui extends JFrame {
 			}
 		}
 	}
-	public void saveTable()throws Exception
-	{
-	  BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
-	  for(int i = 0 ; i < list.getColumnCount() ; i++)
-	  {
-	    bfw.write(list.getColumnName(i));
-	    bfw.write("\t" + ":");
-	  }
 
-	  for (int i = 0 ; i < list.getRowCount(); i++)
-	  {
-	    bfw.newLine();
-	    for(int j = 0 ; j < list.getColumnCount();j++)
-	    {
-	      bfw.write((String)(list.getValueAt(i,j) + ""));
-	      bfw.write("\t" + ":");;
-	    }
-	  }
-	  bfw.close();
-	}
 }
 
 
