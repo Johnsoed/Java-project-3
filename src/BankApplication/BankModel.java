@@ -271,7 +271,7 @@ java.io.Serializable {
 		{
 			// Cast object to a Vector
 			dataVector = (Vector) obj;
-			
+			fireTableChanged(null);
 			// Do something with vector....
 		}
 	
