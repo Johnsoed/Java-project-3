@@ -42,7 +42,7 @@ public class BankGui extends JFrame {
 
 	private JMenuItem Quit;
 
-	private JTable list;
+	public JTable list;
 
 	private JTextField[] tInput;
 
@@ -332,7 +332,7 @@ public class BankGui extends JFrame {
 	  for(int i = 0 ; i < list.getColumnCount() ; i++)
 	  {
 	    bfw.write(list.getColumnName(i));
-	    bfw.write("\t");
+	    bfw.write("\t" + ":");
 	  }
 
 	  for (int i = 0 ; i < list.getRowCount(); i++)
@@ -340,8 +340,8 @@ public class BankGui extends JFrame {
 	    bfw.newLine();
 	    for(int j = 0 ; j < list.getColumnCount();j++)
 	    {
-	      bfw.write((String)(list.getValueAt(i,j)));
-	      bfw.write("\t");;
+	      bfw.write((String)(list.getValueAt(i,j) + ""));
+	      bfw.write("\t" + ":");;
 	    }
 	  }
 	  bfw.close();
