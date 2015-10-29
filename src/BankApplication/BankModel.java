@@ -1,5 +1,6 @@
 package BankApplication;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,6 +21,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 public class BankModel extends AbstractTableModel implements
 java.io.Serializable {
@@ -302,6 +304,23 @@ java.io.Serializable {
 	  }
 	  bfw.close();
 	}
+	
+	
+//	public void loadText() {
+//		DefaultTableModel model = new DefaultTableModel();
+//		BufferedReader br = new BufferedReader(new FileReader(file)) {
+//
+//		String line = br.readLine();
+//		String[] colHeaders = line.split("\\s+");
+//		model.setColumnIdentifiers(colHeaders);
+//
+//		while ((line = br.readLine()) != null) {
+//		String[] data = line.split("\\s+");
+//		model.addRow(data);
+//		    }
+//		}
+//	}
+	
 
 
 }
