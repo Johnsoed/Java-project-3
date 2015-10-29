@@ -1,5 +1,10 @@
 package BankApplication;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -13,7 +18,8 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-public class BankModel extends AbstractTableModel {
+public class BankModel extends AbstractTableModel implements
+java.io.Serializable {
 	protected String[] columnNames;
     protected Vector dataVector;
     private ArrayList<Account> acts;
@@ -222,6 +228,57 @@ public class BankModel extends AbstractTableModel {
 	
 	}
 	
+	public void saveBinary() {
+		try {
+		// Write to disk with FileOutputStream
+		FileOutputStream f_out = new 
+			FileOutputStream("myobject.data");
+
+		// Write object with ObjectOutputStream
+		ObjectOutputStream obj_out = new
+			ObjectOutputStream (f_out);
+
+		// Write object out to disk
+		obj_out.writeObject ( dataVector );
+		}
+		catch(IOException e) {
+			
+		}
+	}
+
+	public void loadBinary() {
+		Object obj = null;
+		try {
+		// Read from disk using FileInputStream
+		FileInputStream f_in = new 
+			FileInputStream("myobject.data");
+
+		// Read object using ObjectInputStream
+		ObjectInputStream obj_in = 
+			new ObjectInputStream (f_in);
+
+		// Read an object
+		 obj = obj_in.readObject();
+		}
+		catch (IOException e) {
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (obj instanceof Vector)
+		{
+			// Cast object to a Vector
+			dataVector = (Vector) obj;
+			
+			// Do something with vector....
+		}
+	
+	
+	}
+
+
 }
 
 
