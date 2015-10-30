@@ -171,6 +171,23 @@ public class BankGui extends JFrame {
 					e1.printStackTrace();
 				}
 			}
+
+			if (e.getSource() == file_save_XML){
+				try {
+					ld.saveXML();
+				} catch (Exception e1) {
+					//  Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			if (e.getSource() == file_load_XML){
+				try {
+					ld.loadXML();
+				} catch (Exception e1) {
+					//  Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			
 			if(e.getSource() == file_save_bin){
 				ld.saveBinary();

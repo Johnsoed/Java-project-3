@@ -1,5 +1,10 @@
 package BankApplication;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,6 +29,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class BankModel extends AbstractTableModel implements
 java.io.Serializable {
@@ -341,9 +354,123 @@ java.io.Serializable {
 	   fireTableDataChanged();
 	   //reading whats inside the text file may help what is going on.
 	}
-	
 
+	public void saveXML(){
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("Account");
+			doc.appendChild(rootElement);
+
+			for (int i = 0; i < dataVector.size(); i++){
+				Account yourAccount = (Account)dataVector.get(i);
+				Element account = doc.createElement("AccountNumber");
+				rootElement.appendChild(account);
+				account.setAttribute("id", String.valueOf(yourAccount.getNumber()));
+				if (yourAccount.hasMonthlyFee() == true){
+					account.setAttribute("Checking", (i + 1) + "");
+				}else {
+					account.setAttribute("Savings", (i + 1) + "");
+				}
+
+				//Gregorian calendar
+				GregorianCalendar date = yourAccount.getDateOpened();
+				Element month = doc.createElement("Month");
+				month.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.MONTH) + 1)));
+				account.appendChild(month);
+
+				Element dateOpen = doc.createElement("Date");
+				dateOpen.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.DATE))));
+				account.appendChild(dateOpen);
+
+				Element year = doc.createElement("Year");
+				year.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.YEAR))));
+				account.appendChild(year);
+
+				//account Owner element
+				Element accOwner = doc.createElement("Owner");
+				accOwner.appendChild(doc.createTextNode(yourAccount.getOwner()));
+				account.appendChild(accOwner);
+
+				//Account Number element
+				Element accBal = doc.createElement("Balance");
+				accBal.appendChild(doc.createTextNode(String.valueOf(yourAccount.getBalance())));
+				account.appendChild(accBal);
+
+				if(yourAccount.hasMonthlyFee() == true) {
+					Element accFee = doc.createElement("Fee");
+					accFee.appendChild(doc.createTextNode(String.valueOf(((CheckingAccount) yourAccount).getMonthlyFee())));
+					account.appendChild(accFee);
+				}else{
+					Element accMin = doc.createElement("MinimumBalance");
+					accMin.appendChild(doc.createTextNode(String.valueOf(((SavingsAccount) yourAccount).getMinBalance())));
+					account.appendChild(accMin);
+
+					Element accRate = doc.createElement("InterestRate");
+					accRate.appendChild(doc.createTextNode(String.valueOf(((SavingsAccount) yourAccount).getInterestRate())));
+					account.appendChild(accRate);
+				}
+			}
+
+			//write contents to xml
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer trans = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("data.xml"));
+
+			trans.transform(source, result);
+			System.out.println("File Saved!");
+
+		} catch (ParserConfigurationException e){
+			e.printStackTrace();
+		} catch (TransformerException t){
+			t.printStackTrace();
+		}
+	}
+
+	public void loadXML(){
+		try {
+			dataVector.clear();
+			File file = new File("data.xml");
+			DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder build = fac.newDocumentBuilder();
+			Document doc = build.parse(file);
+
+			NodeList sList = doc.getElementsByTagName("AccountNumber");
+
+			for (int i = 0; i < sList.getLength(); i++){
+				Node nNode = sList.item(i);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element e = (Element) nNode;
+					System.out.println(e.getNodeValue());
+					int number = Integer.parseInt(e.getAttribute("id"));
+					int m = Integer.parseInt(e.getElementsByTagName("Month").item(0).getTextContent());
+					int d = Integer.parseInt(e.getElementsByTagName("Date").item(0).getTextContent());
+					int y = Integer.parseInt(e.getElementsByTagName("Year").item(0).getTextContent());
+					GregorianCalendar date = new GregorianCalendar(y, m - 1, d);
+					String o = e.getElementsByTagName("Owner").item(0).getTextContent();
+					Double b = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
+					if (e.hasAttribute("Checking")) {
+						Double f = Double.parseDouble(e.getElementsByTagName("Fee").item(0).getTextContent());
+						CheckingAccount check = new CheckingAccount(number, o, date, b, f);
+						dataVector.add(check);
+					} else {
+						Double mb = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
+						Double r = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
+						SavingsAccount save = new SavingsAccount(number, o, date, b, mb, r);
+						dataVector.add(save);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			fireTableDataChanged();
+		}
+	}
 }
 
 
