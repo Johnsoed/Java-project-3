@@ -458,8 +458,8 @@ java.io.Serializable {
 						CheckingAccount check = new CheckingAccount(number, o, date, b, f);
 						dataVector.add(check);
 					} else {
-						Double mb = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
-						Double r = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
+						Double mb = Double.parseDouble(e.getElementsByTagName("MinimumBalance").item(0).getTextContent());
+						Double r = Double.parseDouble(e.getElementsByTagName("InterestRate").item(0).getTextContent());
 						SavingsAccount save = new SavingsAccount(number, o, date, b, mb, r);
 						dataVector.add(save);
 					}
