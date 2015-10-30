@@ -179,6 +179,8 @@ java.io.Serializable {
 		}
 		}
 		catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null,""
+					+ "not a valid value");
 			
 		}
 		
