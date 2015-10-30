@@ -223,9 +223,9 @@ java.io.Serializable {
 			  @Override
 			  public int compare(Object a, Object b) {
 					Calendar date1 = ((Account) a).getDateOpened();
-					System.out.print(date1);
+//					System.out.print(date1);
 					Calendar date2 = ((Account) b).getDateOpened();
-					System.out.print(date2);
+//					System.out.print(date2);
 					if (date1.before(date2)) 
 							return -1;					
 					if (date1.after(date2)) 

@@ -64,6 +64,10 @@ public class BankGui extends JFrame {
 				if(e.getClickCount() > 1) {
 					int row = list.rowAtPoint(e.getPoint());
 					int col = list.columnAtPoint(e.getPoint());
+					//if information column is selected, finds if it is
+					//savings or checking, and updates accordingly
+					// gives prompt for minimum balance and interest if its
+					// a savings, and monthly fee if its a checking
 					if (col == 4) {
 						if (ld.isSavings(row) == true) {
 							String updateString = JOptionPane.showInputDialog(
