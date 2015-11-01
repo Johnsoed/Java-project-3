@@ -49,6 +49,7 @@ public class BankGui extends JFrame {
 	private BankModel ld;
 
 	public BankGui() {
+		// constructor for gui componets
 		String names[] = { "Account Number", "Date Opened",
 				"Account Owner", "Account Balance", "Information" };
 		ld = new BankModel(names);
@@ -59,19 +60,20 @@ public class BankGui extends JFrame {
 		add(scrollPane);
 		setJMenuBar(setupMenu());
 		list.addMouseListener(new java.awt.event.MouseAdapter() {
-
+			// method for changing column info with a mouse click
 			public void mousePressed(java.awt.event.MouseEvent e) {
-				if(e.getClickCount() > 1) {
+				if (e.getClickCount() > 1) {
 					int row = list.rowAtPoint(e.getPoint());
 					int col = list.columnAtPoint(e.getPoint());
-					//if information column is selected, finds if it is
-					//savings or checking, and updates accordingly
+					// if information column is selected, finds if it is
+					// savings or checking, and updates accordingly
 					// gives prompt for minimum balance and interest if its
 					// a savings, and monthly fee if its a checking
 					if (col == 4) {
 						if (ld.isSavings(row) == true) {
-							String updateString = JOptionPane.showInputDialog(
-									null, "enter new value: min Balance ");
+							String updateString = JOptionPane
+									.showInputDialog(null,
+											"enter new value: min Balance ");
 							System.out.print(
 									row + " " + col + " " + updateString);
 							if (updateString != null) {
@@ -80,14 +82,15 @@ public class BankGui extends JFrame {
 							String updateString2 = JOptionPane
 									.showInputDialog(null,
 											"enter new value: Interest Rate ");
-							System.out.print(
-									row + " " + col + " " + updateString2);
+							System.out.print(row + " " + col + " "
+									+ updateString2);
 							if (updateString2 != null) {
 								ld.update(row, 5, updateString2);
 							}
 						} else if (ld.isSavings(row) == false) {
 							String updateString4 = JOptionPane
-									.showInputDialog(null, "enter new value");
+									.showInputDialog(null,
+											"enter new value");
 							if (updateString4 != null) {
 								ld.update(row, 4, updateString4);
 							}
@@ -95,8 +98,8 @@ public class BankGui extends JFrame {
 					} else if (col < 4) {
 						String updateString3 = JOptionPane
 								.showInputDialog(null, "enter new value");
-						System.out
-								.print(row + " " + col + " " + updateString3);
+						System.out.print(
+								row + " " + col + " " + updateString3);
 
 						if (updateString3 != null) {
 							ld.update(row, col, updateString3);
@@ -111,6 +114,7 @@ public class BankGui extends JFrame {
 
 	}
 
+	// sets the gui up
 	public static void main(String[] args) {
 		BankGui bank = new BankGui();
 		bank.pack();
@@ -120,6 +124,7 @@ public class BankGui extends JFrame {
 		bank.setResizable(false);
 	}
 
+	// button listener for when tabs are pressed
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == sort_Owner) {
@@ -138,7 +143,7 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(true);
 				} catch (ParseException e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -146,64 +151,64 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(false);
 				} catch (ParseException e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 
-			// change the delete to (int i) instead of (account other)
 			if (e.getSource() == Delete) {
-				 ld.delete(list.getSelectedRow());
+				ld.delete(list.getSelectedRow());
 			}
 			if (e.getSource() == Quit) {
 				System.exit(EXIT_ON_CLOSE);
 			}
-			
-			if (e.getSource() == file_save_Text){
+
+			if (e.getSource() == file_save_Text) {
 				try {
 					ld.saveTable();
 				} catch (Exception e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
-			if (e.getSource() == file_load_Text){
+			if (e.getSource() == file_load_Text) {
 				try {
 					ld.loadTable();
 				} catch (Exception e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 
-			if (e.getSource() == file_save_XML){
+			if (e.getSource() == file_save_XML) {
 				try {
 					ld.saveXML();
 				} catch (Exception e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
-			if (e.getSource() == file_load_XML){
+			if (e.getSource() == file_load_XML) {
 				try {
 					ld.loadXML();
 				} catch (Exception e1) {
-					//  Auto-generated catch block
+					// Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
-			
-			if(e.getSource() == file_save_bin){
+
+			if (e.getSource() == file_save_bin) {
 				ld.saveBinary();
 			}
-			
-			if(e.getSource() == file_load_bin){
+
+			if (e.getSource() == file_load_bin) {
 				ld.loadBinary();
 			}
 		}
 
 	}
 
+	// sets all the menu items up and adds them to the frame
 	public JMenuBar setupMenu() {
 		ButtonListener listener = new ButtonListener();
 		menuBar = new JMenuBar();
@@ -279,6 +284,10 @@ public class BankGui extends JFrame {
 		return menuBar;
 	}
 
+	/*
+	 * method for displaying and sending information from dialboxes when tabs
+	 * are clicked also displays error messages when fields are left blank
+	 */
 	public void bankDialogBox(boolean check) throws ParseException {
 		JTextField AccNumber = new JTextField(15);
 		JTextField AccOwner = new JTextField(15);
@@ -302,6 +311,8 @@ public class BankGui extends JFrame {
 		myPanel.add(new JLabel("Account Balance: "));
 		myPanel.add(AccBal);
 
+		// check for savings or checking account and display corresponding info
+		// fields
 		if (check == false) {
 			myPanel.add(new JLabel("Interest Rate: "));
 			myPanel.add(IntRate);
@@ -312,19 +323,19 @@ public class BankGui extends JFrame {
 					"Saving Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				try {
-				int num = Integer.parseInt(AccNumber.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(DateOpened.getDate());
-				double bal = Double.parseDouble(AccBal.getText());
-				double rate = Double.parseDouble(IntRate.getText());
-				double mbal = Double.parseDouble(MiniBal.getText());
-				SavingsAccount s = new SavingsAccount(num,
-						AccOwner.getText(), cal, bal, mbal, rate);
-				ld.add(s);
+					int num = Integer.parseInt(AccNumber.getText());
+					GregorianCalendar cal = new GregorianCalendar();
+					cal.setTime(DateOpened.getDate());
+					double bal = Double.parseDouble(AccBal.getText());
+					double rate = Double.parseDouble(IntRate.getText());
+					double mbal = Double.parseDouble(MiniBal.getText());
+					SavingsAccount s = new SavingsAccount(num,
+							AccOwner.getText(), cal, bal, mbal, rate);
+					ld.add(s);
 				}
-				
-				catch ( Exception e) {
-					JOptionPane.showMessageDialog(null,""
+
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, ""
 							+ "Fields left empty, or not entered correctly");
 				}
 			} else if (result == JOptionPane.CANCEL_OPTION) {
@@ -337,20 +348,19 @@ public class BankGui extends JFrame {
 					"Checking Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				try {
-				int num = Integer.parseInt(AccNumber.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(DateOpened.getDate());
-				double bal = Double.parseDouble(AccBal.getText());
-				double fee = Double.parseDouble(MonFee.getText());
-				CheckingAccount s = new CheckingAccount(num,
-						AccOwner.getText(), cal, bal, fee);
-				ld.add(s);
-				}
-				catch ( Exception e) {
-					JOptionPane.showMessageDialog(null,""
+					int num = Integer.parseInt(AccNumber.getText());
+					GregorianCalendar cal = new GregorianCalendar();
+					cal.setTime(DateOpened.getDate());
+					double bal = Double.parseDouble(AccBal.getText());
+					double fee = Double.parseDouble(MonFee.getText());
+					CheckingAccount s = new CheckingAccount(num,
+							AccOwner.getText(), cal, bal, fee);
+					ld.add(s);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, ""
 							+ "Fields left empty, or not entered correctly");
 				}
-				
+
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 			}
 		}
@@ -358,5 +368,4 @@ public class BankGui extends JFrame {
 
 }
 
-
-//ogn['ernt]
+// ogn['ernt]
