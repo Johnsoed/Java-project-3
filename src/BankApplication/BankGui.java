@@ -56,19 +56,24 @@ public class BankGui extends JFrame {
 		list = new JTable(ld);
 		list.getTableHeader().setReorderingAllowed(false);
 		list.setRowHeight(30);
+		
+		//adds JTable to gui
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
 		setJMenuBar(setupMenu());
+		
+		//gives table ability to be clicked with mouse
 		list.addMouseListener(new java.awt.event.MouseAdapter() {
 			// method for changing column info with a mouse click
 			public void mousePressed(java.awt.event.MouseEvent e) {
 				if (e.getClickCount() > 1) {
 					int row = list.rowAtPoint(e.getPoint());
 					int col = list.columnAtPoint(e.getPoint());
-					// if information column is selected, finds if it is
-					// savings or checking, and updates accordingly
-					// gives prompt for minimum balance and interest if its
-					// a savings, and monthly fee if its a checking
+					/* if information column is selected, finds if it is
+					* savings or checking, and updates accordingly
+					* gives prompt for minimum balance and interest if its
+					* a savings, and monthly fee if its a checking
+					*/
 					if (col == 4) {
 						if (ld.isSavings(row) == true) {
 							String updateString = JOptionPane
@@ -143,7 +148,7 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(true);
 				} catch (ParseException e1) {
-					// Auto-generated catch block
+					// tries dialogbox for checking account
 					e1.printStackTrace();
 				}
 			}
@@ -151,7 +156,7 @@ public class BankGui extends JFrame {
 				try {
 					bankDialogBox(false);
 				} catch (ParseException e1) {
-					// Auto-generated catch block
+					// tries dialogbox for savings account
 					e1.printStackTrace();
 				}
 			}
@@ -167,7 +172,7 @@ public class BankGui extends JFrame {
 				try {
 					ld.saveTable();
 				} catch (Exception e1) {
-					// Auto-generated catch block
+					// tries to save table to a text file
 					e1.printStackTrace();
 				}
 			}
@@ -175,7 +180,7 @@ public class BankGui extends JFrame {
 				try {
 					ld.loadTable();
 				} catch (Exception e1) {
-					// Auto-generated catch block
+					// tries to load table from text file
 					e1.printStackTrace();
 				}
 			}
@@ -184,7 +189,7 @@ public class BankGui extends JFrame {
 				try {
 					ld.saveXML();
 				} catch (Exception e1) {
-					// Auto-generated catch block
+					// tries to save table to an XML file
 					e1.printStackTrace();
 				}
 			}
@@ -192,7 +197,7 @@ public class BankGui extends JFrame {
 				try {
 					ld.loadXML();
 				} catch (Exception e1) {
-					// Auto-generated catch block
+					// tries to load table from XML file
 					e1.printStackTrace();
 				}
 			}
@@ -300,6 +305,7 @@ public class BankGui extends JFrame {
 		JTextField MiniBal = new JTextField(15);
 		JTextField MonFee = new JTextField(15);
 
+		//sets up the the dialogbox with with labels and text fields
 		JPanel myPanel = new JPanel();
 		myPanel.setLayout(new GridLayout(6, 2)); // a spacer
 		myPanel.add(new JLabel("Account Number: "));
@@ -311,8 +317,7 @@ public class BankGui extends JFrame {
 		myPanel.add(new JLabel("Account Balance: "));
 		myPanel.add(AccBal);
 
-		// check for savings or checking account and display corresponding info
-		// fields
+		// check for savings or checking account and display corresponding info fields
 		if (check == false) {
 			myPanel.add(new JLabel("Interest Rate: "));
 			myPanel.add(IntRate);
@@ -323,6 +328,7 @@ public class BankGui extends JFrame {
 					"Saving Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				try {
+					//sets user input to corresponding variables
 					int num = Integer.parseInt(AccNumber.getText());
 					GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(DateOpened.getDate());
@@ -339,8 +345,10 @@ public class BankGui extends JFrame {
 							+ "Fields left empty, or not entered correctly");
 				}
 			} else if (result == JOptionPane.CANCEL_OPTION) {
+				//does nothing if cancel is clicked
 			}
 		} else if (check == true) {
+			//if account is a checking account adds another field and label
 			myPanel.add(new JLabel("Monthly Fee: "));
 			myPanel.add(MonFee);
 
@@ -348,6 +356,7 @@ public class BankGui extends JFrame {
 					"Checking Acount", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				try {
+					//sets user input to corresponding variables
 					int num = Integer.parseInt(AccNumber.getText());
 					GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(DateOpened.getDate());
@@ -362,6 +371,7 @@ public class BankGui extends JFrame {
 				}
 
 			} else if (result == JOptionPane.CANCEL_OPTION) {
+				//does nothing if cancel is clicked
 			}
 		}
 	}
