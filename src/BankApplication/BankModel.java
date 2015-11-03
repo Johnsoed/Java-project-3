@@ -38,6 +38,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+/*************************************************************************
+ * The bank model class for the Jtable. This class impelements abstract
+ * table model and implements serializable for binary save and load.
+ * 
+ * @author Hirano Ryuta, Edward Johnson, Lanndon Rose
+ * @version November 2015
+ ************************************************************************/
 public class BankModel extends AbstractTableModel implements
 java.io.Serializable {
 	/** names of the columns*/
@@ -379,7 +386,11 @@ java.io.Serializable {
 	
 	}
 	
-	
+	/*********************************************************************
+	 * A method for saving onto text file using buffered writer.
+	 * 
+	 * @throws Exception - exception whenever the value provided has error.
+	 ********************************************************************/
 	public void saveTable()throws Exception
 	{
 	   BufferedWriter bfw = new BufferedWriter(new FileWriter("Data.txt"));
@@ -408,27 +419,51 @@ java.io.Serializable {
 	   bfw.close();
 	}
 
+	/*********************************************************************
+	 * A method for loading text files.
+	 * 
+	 * @throws Exception - when the value has errors.
+	 ********************************************************************/
 	public void loadTable() throws Exception{
 	   dataVector.clear();
 	   Scanner fileReader = new Scanner(new File("Data.txt"));
-	   while(fileReader.hasNextLine()) {           //reads each line and see if there is next()
-	      String line = fileReader.nextLine();      //reads each line in the text file
-	      String[] tokens = line.split("\\|");      // splits that string line by |
-	      int n = Integer.parseInt(tokens[0]);      //changes to int from first object in string array
-	      int m = Integer.parseInt(tokens[1]);      //adds mm/dd/yyyy to int and into gregoriancalandar
+	   
+	   //reads each line and see if there is next()
+	   while(fileReader.hasNextLine()) {  
+		  
+		  //reads each line in the text file
+	      String line = fileReader.nextLine();  
+	      
+	      // splits that string line by |
+	      String[] tokens = line.split("\\|");
+	      
+	      //changes to int from first object in string array
+	      int n = Integer.parseInt(tokens[0]);
+	      
+	      //adds mm/dd/yyyy to int and into gregoriancalandar
+	      int m = Integer.parseInt(tokens[1]);      
 	      int d = Integer.parseInt(tokens[2]);
 	      int y = Integer.parseInt(tokens[3]);
 	      GregorianCalendar date = new GregorianCalendar(y, m - 1, d);
-	      String name = tokens[4];               //adds the owner name
+	      
+	      //adds the owner name
+	      String name = tokens[4];        
+	      
+	      //adds the account balance
 	      Double balance = Double.parseDouble(tokens[5]);
+	      
+	      //If tokens length is 7, then is checkings. 
+	      //If it is greater, then is savings.
 	      if (tokens.length == 7) {
 	         Double monthly = Double.parseDouble(tokens[6]);
-	         CheckingAccount check = new CheckingAccount(n, name, date, balance, monthly);
+	         CheckingAccount check = 
+	        		 new CheckingAccount(n, name, date, balance, monthly);
 	         dataVector.add(check);
 	      } else {
 	         Double minBal = Double.parseDouble(tokens[6]);
 	         Double r = Double.parseDouble(tokens[7]);
-	         SavingsAccount save = new SavingsAccount(n, name, date, balance, minBal, r);
+	         SavingsAccount save = 
+	        		 new SavingsAccount(n, name, date, balance, minBal, r);
 	         dataVector.add(save);
 	      }
 	   }
@@ -436,38 +471,60 @@ java.io.Serializable {
 	   //reading whats inside the text file may help what is going on.
 	}
 
+	/*********************************************************************
+	 * A method for saving a file as xml.
+	 * This method uses document builder factory to set the format into
+	 * xml style format.
+	 ********************************************************************/
 	public void saveXML(){
 		try {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			//used the following document builder to create new xml files.
+			//due to the length of some of these codes, it may look messy.
+			DocumentBuilderFactory docFactory = 
+					DocumentBuilderFactory.newInstance();
+			
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("Account");
 			doc.appendChild(rootElement);
 
+			//loops for every vector and turns each into a xml format.
 			for (int i = 0; i < dataVector.size(); i++){
 				Account yourAccount = (Account)dataVector.get(i);
 				Element account = doc.createElement("AccountNumber");
 				rootElement.appendChild(account);
-				account.setAttribute("id", String.valueOf(yourAccount.getNumber()));
+				account.setAttribute("id", 
+						String.valueOf(yourAccount.getNumber()));
+				
+				//if statement to check if the account is savings or
+				//checking. If checking, then sets the xml tag as checking.
+				//Else, it is savings.
 				if (yourAccount.hasMonthlyFee() == true){
 					account.setAttribute("Checking", (i + 1) + "");
 				}else {
 					account.setAttribute("Savings", (i + 1) + "");
 				}
 
-				//Gregorian calendar
+				//Gregorian calendar date had to be broken in pieces by
+				//the month, date, and year for effectiveness.
+				//this piece is the calendar month
 				GregorianCalendar date = yourAccount.getDateOpened();
 				Element month = doc.createElement("Month");
-				month.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.MONTH) + 1)));
+				month.appendChild(doc.createTextNode
+						(String.valueOf(date.get(Calendar.MONTH) + 1)));
 				account.appendChild(month);
 
+				//Calendar date
 				Element dateOpen = doc.createElement("Date");
-				dateOpen.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.DATE))));
+				dateOpen.appendChild(doc.createTextNode(String.valueOf
+						(date.get(Calendar.DATE))));
 				account.appendChild(dateOpen);
 
+				//calendar year
 				Element year = doc.createElement("Year");
-				year.appendChild(doc.createTextNode(String.valueOf(date.get(Calendar.YEAR))));
+				year.appendChild(doc.createTextNode(String.valueOf
+						(date.get(Calendar.YEAR))));
 				account.appendChild(year);
 
 				//account Owner element
@@ -477,26 +534,35 @@ java.io.Serializable {
 
 				//Account Number element
 				Element accBal = doc.createElement("Balance");
-				accBal.appendChild(doc.createTextNode(String.valueOf(yourAccount.getBalance())));
+				accBal.appendChild(doc.createTextNode(String.valueOf
+						(yourAccount.getBalance())));
 				account.appendChild(accBal);
 
+				//if statement checks if the account is checking
+				//or savings. If it is, it saves the monthly fee into xml.
+				//if it is savings, it will save the minimum balance and
+				//interest rate into xml.
 				if(yourAccount.hasMonthlyFee() == true) {
 					Element accFee = doc.createElement("Fee");
-					accFee.appendChild(doc.createTextNode(String.valueOf(((CheckingAccount) yourAccount).getMonthlyFee())));
+					accFee.appendChild(doc.createTextNode(String.valueOf(
+							((CheckingAccount) yourAccount).getMonthlyFee())));
 					account.appendChild(accFee);
 				}else{
 					Element accMin = doc.createElement("MinimumBalance");
-					accMin.appendChild(doc.createTextNode(String.valueOf(((SavingsAccount) yourAccount).getMinBalance())));
+					accMin.appendChild(doc.createTextNode(String.valueOf((
+							(SavingsAccount) yourAccount).getMinBalance())));
 					account.appendChild(accMin);
 
 					Element accRate = doc.createElement("InterestRate");
-					accRate.appendChild(doc.createTextNode(String.valueOf(((SavingsAccount) yourAccount).getInterestRate())));
+					accRate.appendChild(doc.createTextNode(String.valueOf((
+							(SavingsAccount) yourAccount).getInterestRate())));
 					account.appendChild(accRate);
 				}
 			}
 
 			//write contents to xml
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			TransformerFactory transformerFactory = 
+					TransformerFactory.newInstance();
 			Transformer trans = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("data.xml"));
@@ -511,6 +577,10 @@ java.io.Serializable {
 		}
 	}
 
+	/*********************************************************************
+	 * A method to load from the saved xml file. This method uses document
+	 * builder factory, and node class to get each element in right format.
+	 ********************************************************************/
 	public void loadXML(){
 		try {
 			dataVector.clear();
@@ -521,27 +591,43 @@ java.io.Serializable {
 
 			NodeList sList = doc.getElementsByTagName("AccountNumber");
 
+			//loops for each account number until the tag is closed.
+			//used the node and nodelist methods to cleanly load from
+			//the xml file.
 			for (int i = 0; i < sList.getLength(); i++){
 				Node nNode = sList.item(i);
 
+				//checks and see if the element is a node. If it is, then
+				//the element is broken into pieces and loads into the
+				//data vector.
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element) nNode;
 					System.out.println(e.getNodeValue());
 					int number = Integer.parseInt(e.getAttribute("id"));
-					int m = Integer.parseInt(e.getElementsByTagName("Month").item(0).getTextContent());
-					int d = Integer.parseInt(e.getElementsByTagName("Date").item(0).getTextContent());
-					int y = Integer.parseInt(e.getElementsByTagName("Year").item(0).getTextContent());
+					int m = Integer.parseInt(e.getElementsByTagName("Month")
+							.item(0).getTextContent());
+					int d = Integer.parseInt(e.getElementsByTagName("Date")
+							.item(0).getTextContent());
+					int y = Integer.parseInt(e.getElementsByTagName("Year")
+							.item(0).getTextContent());
 					GregorianCalendar date = new GregorianCalendar(y, m - 1, d);
-					String o = e.getElementsByTagName("Owner").item(0).getTextContent();
-					Double b = Double.parseDouble(e.getElementsByTagName("Balance").item(0).getTextContent());
+					String o = e.getElementsByTagName("Owner")
+							.item(0).getTextContent();
+					Double b = Double.parseDouble(e.getElementsByTagName
+							("Balance").item(0).getTextContent());
 					if (e.hasAttribute("Checking")) {
-						Double f = Double.parseDouble(e.getElementsByTagName("Fee").item(0).getTextContent());
-						CheckingAccount check = new CheckingAccount(number, o, date, b, f);
+						Double f = Double.parseDouble(e.getElementsByTagName
+								("Fee").item(0).getTextContent());
+						CheckingAccount check = new CheckingAccount
+								(number, o, date, b, f);
 						dataVector.add(check);
 					} else {
-						Double mb = Double.parseDouble(e.getElementsByTagName("MinimumBalance").item(0).getTextContent());
-						Double r = Double.parseDouble(e.getElementsByTagName("InterestRate").item(0).getTextContent());
-						SavingsAccount save = new SavingsAccount(number, o, date, b, mb, r);
+						Double mb = Double.parseDouble(e.getElementsByTagName
+								("MinimumBalance").item(0).getTextContent());
+						Double r = Double.parseDouble(e.getElementsByTagName
+								("InterestRate").item(0).getTextContent());
+						SavingsAccount save = new SavingsAccount
+								(number, o, date, b, mb, r);
 						dataVector.add(save);
 					}
 				}
