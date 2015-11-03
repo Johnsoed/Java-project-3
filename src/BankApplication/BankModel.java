@@ -40,33 +40,58 @@ import javax.xml.transform.stream.StreamResult;
 
 public class BankModel extends AbstractTableModel implements
 java.io.Serializable {
+	/** names of the columns*/
 	protected String[] columnNames;
+	/** vector that stores table information*/
     protected Vector dataVector;
-    private ArrayList<Account> acts;
-	// blah
 
+	/*****************************************************************
+	constructor for Bank Model, initiates the column names and vector
+	*****************************************************************/
     public BankModel(String[] columnNames) {
         this.columnNames = columnNames;
-        acts = new ArrayList<Account>();
         dataVector = new Vector();
     }
     
-    
+	/*****************************************************************
+	 * gets column names
+	 * @returns column names in string format
+	*****************************************************************/
     public String getColumnName(int col) {
         return columnNames[col].toString();
     }
 
+	/*****************************************************************
+	 * gets number of columns
+	 * @returns number of columns in int form
+	*****************************************************************/
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
 		return columnNames.length;
 	}
 
+	/*****************************************************************
+	 * gets number of rows
+	 * @returns number of rows in int form
+	*****************************************************************/
 	@Override
 	public int getRowCount() {
 		 return dataVector.size();
 	}
 
+	/*****************************************************************
+	 * gets value at selected location
+	 * @param int row, row number on table
+	 * @param int columns, column number on table
+	 * @returns returns different thing based on the column, the case
+	 * returns number for case 0, account number column
+	 * returns date for case 1, the date column
+	 * returns owner name for owner column
+	 * returns balance in currency for for balance column
+	 * depending on whether the account is a savings for checking,
+	 * returns either monthly fee at or interest and minimum balance
+	*****************************************************************/
 	@Override
 	public Object getValueAt(int row, int column) {
 		Account yourAccount = (Account)dataVector.get(row);
@@ -83,18 +108,27 @@ java.io.Serializable {
 			return NumberFormat.getCurrencyInstance().format(yourAccount.getBalance());
 		case 4:
 			return yourAccount.outPut();
+			//outPut differs depending on account type
 		
 		default: 
 			return new Object(); 
 		}
 				}
 	
+	/*****************************************************************
+	 * adds new account
+	 * @param Account object to add to table
+	*****************************************************************/
 	public void add(Account Other) {
 		dataVector.add(Other);
 		fireTableRowsInserted(dataVector.size() - 1
 				,dataVector.size() - 1);
 	}
 	
+	/*****************************************************************
+	 * deletes selected account at row
+	 * @param row to delete 
+	*****************************************************************/
 	public void delete(int row) {
 		try {
 		dataVector.remove(row);
@@ -103,13 +137,26 @@ java.io.Serializable {
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
 			JOptionPane.showMessageDialog(null,"Account not selected");
+			//alerts user if delete is selected without an account
+			// being selected
 		}
 	}
 
+	/*****************************************************************
+	 * disables cells from being manually editable
+	 * @param row and column
+	*****************************************************************/
     public boolean isCellEditable(int row, int col){
     	return false; 
     	}
     
+	/*****************************************************************
+	 * updates value at selected row and column
+	 * @param row
+	 * @param column
+	 * @param update stuff is what is put into the cell , received in
+	 * string form and converted depending on the case
+	*****************************************************************/
 	public void update(int row, int column, String updateStuff) {
 		Account yourAccount = (Account)dataVector.get(row);
 		try {
@@ -135,6 +182,7 @@ java.io.Serializable {
 			yourAccount.setOwner(updateStuff);
 			fireTableDataChanged();
 			break;
+			//doesn't change if string is empty
 			}
 		
 		case 3:
@@ -179,6 +227,7 @@ java.io.Serializable {
 		}
 		}
 		catch (NumberFormatException e) {
+			//catches any incorrect inputs for ints or doubles
 			JOptionPane.showMessageDialog(null,""
 					+ "not a valid value");
 			
@@ -186,6 +235,12 @@ java.io.Serializable {
 		
 		
 	}
+	
+	/*****************************************************************
+	sorts table in descending alphabetical order
+	@param object a   account object a for comparator
+	@param object b   second account object for comparator 
+	*****************************************************************/
 	@SuppressWarnings("unchecked")
 	public void sortName() {
 		Collections.sort(dataVector, new Comparator() {
@@ -198,7 +253,11 @@ java.io.Serializable {
 		fireTableDataChanged();
 		}
 	
-	
+	/*****************************************************************
+	sorts table using account number, from small to large
+	@param object a   account object a for comparator
+	@param object b   second account object for comparator 
+	*****************************************************************/
 	@SuppressWarnings("unchecked")
 	public void sortAccount() {
 		Collections.sort(dataVector, new Comparator() {
@@ -217,6 +276,11 @@ java.io.Serializable {
 		fireTableDataChanged();
 		}
 	
+	/*****************************************************************
+	sorts table using date, from earliest to latest
+	@param object a   account object a for comparator
+	@param object b   second account object for comparator 
+	*****************************************************************/
 	@SuppressWarnings("unchecked")
 	public void sortDate() {
 		Collections.sort(dataVector, new Comparator() {
@@ -241,6 +305,12 @@ java.io.Serializable {
 		}
 	
 	
+	/*****************************************************************
+	Tells if an account at row is a savings account or not
+	@param row row of account 
+	@returns returns true if account at row is savings, false if it
+	isn't 
+	*****************************************************************/
 	public boolean isSavings( int row) {
 		Account yourAccount = (Account)dataVector.get(row);
 		if (yourAccount.hasMonthlyFee() == false) 
@@ -250,6 +320,9 @@ java.io.Serializable {
 	
 	}
 	
+	/*****************************************************************
+	Saves the dataVector vector object to a binary file
+	*****************************************************************/
 	public void saveBinary() {
 		try {
 		// Write to disk with FileOutputStream
@@ -268,6 +341,10 @@ java.io.Serializable {
 		}
 	}
 
+	/*****************************************************************
+	loads the dataVector vector object from a binary file, and then
+	sets the table using the information from it.
+	*****************************************************************/
 	public void loadBinary() {
 		Object obj = null;
 		try {
