@@ -300,6 +300,7 @@ public class BankGui extends JFrame {
 		JTextFieldDateEditor editor = (JTextFieldDateEditor) DateOpened
 				.getDateEditor();
 		editor.setEditable(false);
+		DateOpened.setSelectableDateRange(new SimpleDateFormat("MM-DD-YYYY").parse("01-01-1915"), new Date());
 		JTextField AccBal = new JTextField(15);
 		JTextField IntRate = new JTextField(15);
 		JTextField MiniBal = new JTextField(15);

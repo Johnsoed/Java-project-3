@@ -70,7 +70,7 @@ public class SavingsAccount extends Account {
 	@Override
 	public String outPut() {
 		String s = "<html>Minimum Balance: " + NumberFormat.getCurrencyInstance().format(minBalance);
-		s += "<br>Interest Rate: " + NumberFormat.getCurrencyInstance().format(interestRate);
+		s += "<br>Interest Rate: " + NumberFormat.getPercentInstance().format(interestRate);
 		return s;
 	}
 
