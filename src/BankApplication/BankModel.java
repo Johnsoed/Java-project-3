@@ -105,7 +105,8 @@ java.io.Serializable {
 		case 2: 
 			return yourAccount.getOwner();
 		case 3: 
-			return NumberFormat.getCurrencyInstance().format(yourAccount.getBalance());
+			return NumberFormat.getCurrencyInstance().
+					format(yourAccount.getBalance());
 		case 4:
 			return yourAccount.outPut();
 			//outPut differs depending on account type
@@ -200,7 +201,8 @@ java.io.Serializable {
 			if (yourAccount.hasMonthlyFee() == true) {
 				double fNumber;
 				fNumber = Double.parseDouble(updateStuff);
-				((CheckingAccount) yourAccount).setMonthlyFee(fNumber);
+				((CheckingAccount) yourAccount)
+				.setMonthlyFee(fNumber);
 				fireTableDataChanged();
 			}
 			else {
